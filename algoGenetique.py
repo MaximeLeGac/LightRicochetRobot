@@ -1,22 +1,43 @@
 import RicochetMap
+import random
 
-CONST_TAILLE_POPULATION = 10
+CONST_TAILLE_POPULATION = 9
+
 
 def createrobot():
 	robot = GetRobot("bleu")
-	init(robot)
+	carte = getCarte()
+
+	init(robot, carte)
 
 
 def init(robot):
 	for i in range(CONST_TAILLE_POPULATION):
-		robot.passages = deplacementRandom()
+		for u in range()
+			robot.passages[u] = deplacementRandom()
 
 
 
 
+# generation random d'un déplacement
+# H : Haut
+# D : Droite
+# G : Gauche
+# B : Bas
 def deplacementRandom():
-	
-	return 0
+    ran = random.randint(1, 4)
+    if(ran == 1):
+    	return "H"
+    elif(ran == 2):
+    	return "B"
+    elif(ran == 3):
+    	return "D"
+	elif(ran == 4):
+		return "G"
+	else:
+		return "H"
+
+   
 
 
 def evaluation():
