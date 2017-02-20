@@ -1,5 +1,3 @@
-import RicochetMap
-
 # Classe Individu
 # Représente un individu qui sera utilisé lors de l'exécution de l'algorithme génétique
 class Individu ():
