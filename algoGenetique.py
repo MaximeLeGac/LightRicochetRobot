@@ -24,7 +24,13 @@ def evaluation():
 
 
 
-def croiser():
+def croiser(parent1, parent2):
+	# arrondit permettant de savoir si l'on va prendre le 50% au chiffre supérieur ou inférieur en cas de taille impaire d'un des parents
+	arrondit = random.randint(1, 2)
+	
+	
+	
+	
 	return 0
 
 

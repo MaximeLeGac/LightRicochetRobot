@@ -14,7 +14,7 @@ class Case():
 # Classe Robot
 # Représente un robot sur la map avec ses coordonnées à un instant T et sa couleur
 class Robot ():
-    def __init__(self, x =0, y =0, couleur =0, passages =[0]):
+    def __init__(self, x =0, y =0, couleur =0, passages =[0], note =0, taille =0):
         self.x = x
         self.y = y
         self.couleur = couleur
