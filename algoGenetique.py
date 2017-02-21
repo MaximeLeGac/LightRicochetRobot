@@ -41,9 +41,9 @@ def gestionDeplacement(carte):
  	return deplaRandom
 
 
-############################################""Penser a faire les colission individu
-############################################""Penser a faire les colission individu
-############################################""Penser a faire les colission individu
+############################################""Penser a faire les colission entre individu
+############################################""Penser a faire les colission entre individu
+############################################""Penser a faire les colission entre individu
 
 # Verifie si mur sur notre deplacement
 # positionIndividu : position du individu initial
@@ -67,7 +67,11 @@ def gestionCollision(positionIndividu, deplacement, carte):
 ############################################""Penser a faire les colission MUR
 ############################################""Penser a faire les colission MUR
 ############################################""Penser a faire les colission MUR
-
+	carte[1][1]
+#	self.murHaut = murHaut
+#    self.murBas = murBas
+#    self.murGauche = murGauche
+#    self.murDroite = murDroite
 	return positionIndividu
 
 
