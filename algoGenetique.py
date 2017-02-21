@@ -125,13 +125,18 @@ def croiser(individu_parent1, individu_parent2):
 
 
 
-def muter():
+def muter(individu):
 	# Par defaut, mutation rate de 5%
 	# mais dans le futur, mutation rate qui évolue en fonction du taux de réussite des individus (si taux stagne, augmentation du mutation rate)
 
-	taux_mutation = random.randint(0,100)
+	tab_deplacements = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+	taux_mutation = random.randint(0, 100)
+
 	if 0 <= taux_mutation <= 5:
-		
+		index_random_deplacement = random.randint(1, 4) # Nombre random pour choisir un déplacement parmi les 4 possibles
+		index_random_individu = random.randint(1, len(individu.passages)) # Nombre random pour choisir le déplacement qui sera remplacé chez l'individu
+
+		individu.passages[index_random_individu] = tab_deplacements[index_random_deplacement]
 
 
-	return 0
+	return individu

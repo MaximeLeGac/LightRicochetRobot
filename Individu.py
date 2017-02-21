@@ -3,10 +3,9 @@
 class Individu ():
 
     # Méthode d'initialisation
-    # passages  : Séquence "chromosome" de l'individu
+    # passages  : Tableau des déplacements (sous forme [abscisse, ordonnée]) à effectuer par l'individu
     # note      : Note de l'exécution de l'individu
     def __init__(self, passages =[0], note =0):
         self.passages = passages
         self.note = note
 
-        
