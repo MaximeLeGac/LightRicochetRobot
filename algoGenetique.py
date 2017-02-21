@@ -97,6 +97,7 @@ def deplacementRandom():
 # entrée : liste des deplacements
 # Sortie : Note du population
 def evaluation(populations):
+	
 
 	return 0
 
