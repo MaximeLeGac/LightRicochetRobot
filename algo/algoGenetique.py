@@ -3,7 +3,6 @@ import random
 
 CONST_TAILLE_POPULATION = 9
 
-
 def createrobot():
 
 	carte = getCarte()
