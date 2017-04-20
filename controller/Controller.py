@@ -2,8 +2,9 @@ def superalgo():
 # on rempli de base la population
 	init()
 	generation = 10
-	while generation > i: 
-		# evaluation
+	while generation > i: 	
+
+		#Selection 
 
 		#Croisement
 

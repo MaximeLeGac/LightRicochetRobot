@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Ici on se deplacement sur la carte
 # On gere les collisions, les demis tour etc...
 def generateMovements(carte):
@@ -31,12 +30,11 @@ def gestionCollision(positionIndividu, deplacement, carte):
 	tailleCarte = len(carte) - 1
 
 	# Pour la carte on prend la case 0
-	if(positionIndividu[0] >= 0 and positionIndividu[0] < tailleCarte):
+	if(positionIndividu[0] >= 0 and positionIndividu[0] < tailleCarte):	#x
 		positionIndividu[0] = positionIndividu[0] + deplacement[0]
-	elif(positionIndividu[1] >= 0 and positionIndividu[1] < tailleCarte):
+	elif(positionIndividu[1] >= 0 and positionIndividu[1] < tailleCarte): #y
 		positionIndividu[1] = positionIndividu[1] + deplacement[1]
 	else:
-		# rien on renvoi donc les meme valeurs (sa veut dire qu'on sort de la carte)
 
 ############################################""Penser a faire les colission MUR
 ############################################""Penser a faire les colission MUR
@@ -69,9 +67,9 @@ def deplacementRandom():
 
    
 
-# Note notre population 
-# entrée : liste des deplacements
-# Sortie : Note du population
-def evaluateMovements(populations):
+# Note notre individu 
+# entrée : un individus
+# Sortie : Note de l'indidus
+def evaluateMovements(individus):
 
 	return 0
