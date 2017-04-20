@@ -1,6 +1,7 @@
+<<<<<<< HEAD
 # Ici on se deplacement sur la carte
 # On gere les collisions, les demis tour etc...
-def gestionDeplacement(carte):
+def generateMovements(carte):
 	deplaRandom = deplacementRandom()
 	positionTempo = []
 	positionCourante = [] #Position du individu x, y
@@ -71,6 +72,6 @@ def deplacementRandom():
 # Note notre population 
 # entrée : liste des deplacements
 # Sortie : Note du population
-def evaluation(populations):
+def evaluateMovements(populations):
 
 	return 0

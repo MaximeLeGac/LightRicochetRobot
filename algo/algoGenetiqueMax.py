@@ -1,9 +1,12 @@
+import random
 
 
+def selectionTournoi():
 
-def selection():
+	return 0
 
 
+# Méthode permettant de croiser les déplacements de 2 individus parents pour créer 2 individus enfants
 def croiser(individu_parent1, individu_parent2):
 	
 	taille_parent1 = len(individu_parent1.passages) # Taille du premier individu parent
@@ -12,15 +15,17 @@ def croiser(individu_parent1, individu_parent2):
 	taille_moyenne1 = round((taille_parent1 / 2), 0)
 	taille_moyenne2 = round((taille_parent2 / 2), 0)
 	
+	############################################ A RETRAVAILLER ====> Index enfants !!!!!!
 	# Création des enfants
-	enfant1[0:taille_moyenne1] = individu_parent1[0:taille_moyenne1]
-	enfant1[taille_moyenne2+1:taille_parent2] = individu_parent2[taille_moyenne2+1:taille_parent2]
+	enfant1[0:taille_moyenne1] = individu_parent1[0:taille_moyenne1] # 1ère moitié enfant1 = 1ère moitié parent1
+	enfant1[(taille_moyenne1+1):(taille_moyenne1+1+taille_moyenne2)] = individu_parent2[(taille_moyenne2+1):taille_parent2] # 2ème moitie enfant1 = 2ème moitié parent2
 
 
-	enfant2[0:taille_moyenne2] = individu_parent2[0:taille_moyenne2]
-	enfant2[taille_moyenne1+1:taille_parent1] = individu_parent1[taille_moyenne1+1:taille_parent1]
+	enfant2[0:taille_moyenne2] = individu_parent2[0:taille_moyenne2] # 1ère moitié enfant2 = 1ère moitié parent2
+	enfant2[taille_moyenne2+1:(taille_moyenne2+1+taille_moyenne1)] = individu_parent1[taille_moyenne1+1:taille_parent1] # 2ème moitie enfant2 = 2ème moitié parent1
 	
 	return 0
+
 
 
 
@@ -40,3 +45,5 @@ def muter(individu):
 
 
 	return individu
+
+	
