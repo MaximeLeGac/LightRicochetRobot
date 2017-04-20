@@ -1,7 +1,9 @@
+import random
 
 
+def selectionTournoi():
 
-def selection():
+	return 0
 
 
 # Méthode permettant de croiser les déplacements de 2 individus parents pour créer 2 individus enfants
@@ -43,3 +45,5 @@ def muter(individu):
 
 
 	return individu
+
+	
