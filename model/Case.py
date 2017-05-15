@@ -2,7 +2,8 @@
 # Représente une case dans la Map avec ses coordonnées et la présence d'obstacle(s)
 # à sa position
 class Case():
-    
+
+    # ====================================================
     # Méthode d'initialisation
     # x         : Abscisse de la case
     # y         : Ordonnée de la case
@@ -10,7 +11,7 @@ class Case():
     # murBas    : Indique s'il y a un obstacle sur le bord bas
     # murGauche : Indique s'il y a un obstacle sur le bord gauche
     # murDroite : Indique s'il y a un obstacle sur le bord droite
-    def __init__(self, x =0, y =0, murHaut =Flase, murBas =False, murGauche =False, murDroite =False):
+    def __init__(self, x =0, y =0, murHaut =False, murBas =False, murGauche =False, murDroite =False):
 
         # Définit les coordonnées de la case sur la carte
         self.x = x
@@ -21,3 +22,4 @@ class Case():
         self.murBas = murBas
         self.murGauche = murGauche
         self.murDroite = murDroite
+    # ====================================================

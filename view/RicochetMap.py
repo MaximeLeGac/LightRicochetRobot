@@ -1,33 +1,77 @@
+#!/usr/bin/env python
+
 import Map
 import Robot
 import Case
 import random
 
-# MÈthode de gÈnÈration de la carte
-# size  : Taille de la Map
-def generateMap(size):
+# ====================================================
+# M√©thode de g√©n√©ration de la carte
+# index : Inddex de la Map
+def generateMap(index):
+    if index == 1:
+        return generateMap1()
+    elif index == 2:
+        return generateMap2()
+    elif index == 3:
+        return generateMap3()
+# ====================================================
+
+
+# ====================================================
+# M√©thode de g√©n√©ration de la carte 1
+def generateMap1():
     
     # Initialise la map
-    map = Map(size)
-    
-    # GÈnËre la position d'arrivÈe
-    map.setArrival()
+    map = Map(8)
 
     # Remplit la map de cases
+    for x in xrange(size):
+        line = [size]
+        for y in xrange(size):
+            line[y] = Case(x, y)
+        map.appendLine(line)
+    
+    # G√©n√®re la position d'arriv√©e
+    map.setArrival()
 
     # Assigne les obstacles
 
     return map
+# ====================================================
 
 
-# MÈthode d'initialisatio d'un robot
+# ====================================================
+# D√©finit le point d'arriv√©e de la carte
+def setArrival(map):
+
+    # Initialise les coordonn√©es du point d'arriv√©e
+    map.arrivalX = random.randint(0, self.size)
+    map.arrivalY = random.randint(0, self.size)
+# ====================================================
+
+
+# ====================================================
+# Remplit une map
+def fillMap(map):
+    for x in xrange(map.size):
+        line = [map.size]
+        for y in xrange(map.size):
+            line[y] = Case(x, y)
+        map.appendLine(line)
+# ====================================================
+
+
+# ====================================================
+# M√©thode d'initialisation d'un robot
 # size  : Taille de la Map
 # color : Couleur du Robot
 def initRobot(size, color):
 
-    # GÈnËre les coordonnÈes de dÈpart du robot
+    # G√©n√®re les coordonn√©es de d√©part du robot
     x = random.randint(0, size)
     y = random.randint(0, size)
 
     # Initialise le robot
     return Robot(x, y, color)
+# ====================================================
