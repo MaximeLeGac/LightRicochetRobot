@@ -25,3 +25,5 @@ class Map():
         if (line.__le__ == self.size - 1 && self.lineList.__le__ < self.size - 1):
             self.lineList.append(line)
     # ====================================================
+    
+# ====================================================
