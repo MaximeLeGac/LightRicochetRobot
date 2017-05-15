@@ -4,6 +4,9 @@ import random
 import algoGenetiqueMax
 import algoGenetiqueNico
 
+
+
+
 CONST_TAILLE_POPULATION = 9
 CONST_NB_GENERATION = 5
 
@@ -19,7 +22,7 @@ def controller(carte):
 		for i in range(CONST_TAILLE_POPULATION):
 
 			#on évalue un individus
-			evaluateMovements()
+			evaluateMovements(individus, carte)
 
 			#Selection 
 
