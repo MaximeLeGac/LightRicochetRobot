@@ -25,5 +25,28 @@ class Map():
         if (line.__le__ == self.size - 1 && self.lineList.__le__ < self.size - 1):
             self.lineList.append(line)
     # ====================================================
+
+
+    # ====================================================
+    # Définit le point d'arrivée de la carte
+    def initArrival(self):
+
+        # Initialise les coordonnées du point d'arrivée
+        self.arrivalX = random.randint(0, self.size)
+        self.arrivalY = random.randint(0, self.size)
+    # ====================================================
+
+
+    # ====================================================
+    # Méthode d'initialisation d'un robot
+    def initRobotList(self):
+
+        # Génère les coordonnées de départ du robot
+        x = random.randint(0, self.size)
+        y = random.randint(0, self.size)
+
+        # Initialise le robot
+        self.robotList.append(Robot(x, y))
+    # ====================================================
     
 # ====================================================

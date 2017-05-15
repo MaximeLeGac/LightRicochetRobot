@@ -6,48 +6,45 @@ import Case
 import random
 
 # ====================================================
+# Initialise la carte, l'arrivée et appelle le controller pour lancer les déplacements
+def init():
+    # Demande l'index de la map souhaitée
+    index = 1
+
+    # Génère la map
+    map = generateMap(index)
+# ====================================================
+
+
+# ====================================================
 # Méthode de génération de la carte
 # index : Inddex de la Map
 def generateMap(index):
-    if index == 1:
-        return generateMap1()
-    elif index == 2:
-        return generateMap2()
-    elif index == 3:
-        return generateMap3()
-# ====================================================
-
-
-# ====================================================
-# Méthode de génération de la carte 1
-def generateMap1():
     
     # Initialise la map
     map = Map(8)
-
+    
     # Remplit la map de cases
-    for x in xrange(size):
-        line = [size]
-        for y in xrange(size):
-            line[y] = Case(x, y)
-        map.appendLine(line)
+    fillMap(map)
+
+    # Assigne les obstacles correspondant à l amap attendue
+    if index == 1:
+        # obstacles de la 1ère  map
+        setWallsMap1(map)
+    elif index == 2:
+        # obstacles de la 2e map
+        setWallsMap2(map)
+    elif index == 3:
+        # obstacles de la 3e map
+        setWallsMap2(map)
     
     # Génère la position d'arrivée
-    map.setArrival()
+    map.initArrival()
 
-    # Assigne les obstacles
+    # Génère les robots de la map
+    map.initRobotList()
 
     return map
-# ====================================================
-
-
-# ====================================================
-# Définit le point d'arrivée de la carte
-def setArrival(map):
-
-    # Initialise les coordonnées du point d'arrivée
-    map.arrivalX = random.randint(0, self.size)
-    map.arrivalY = random.randint(0, self.size)
 # ====================================================
 
 
@@ -63,15 +60,54 @@ def fillMap(map):
 
 
 # ====================================================
-# Méthode d'initialisation d'un robot
-# size  : Taille de la Map
-# color : Couleur du Robot
-def initRobot(size, color):
+# Assigne les murs de la map 1
+def setWallsMap1(map):
+    map.lineList[0][1].murB = True
 
-    # Génère les coordonnées de départ du robot
-    x = random.randint(0, size)
-    y = random.randint(0, size)
+    map.lineList[1][0].murD = True
+    map.lineList[1][1].murG = True
+    map.lineList[1][1].murH = True
+    map.lineList[1][4].murD = True
+    map.lineList[1][5].murG = True
+    map.lineList[1][5].murB = True
 
-    # Initialise le robot
-    return Robot(x, y, color)
+    map.lineList[2][3].murD = True
+    map.lineList[2][3].murB = True
+    map.lineList[2][4].murG = True
+    map.lineList[2][4].murB = True
+    map.lineList[2][7].murB = True
+
+    map.lineList[3][1].murB = True
+    map.lineList[3][2].murD = True
+    map.lineList[3][3].murG = True
+    map.lineList[3][3].murH = True
+    map.lineList[3][4].murD = True
+    map.lineList[3][4].murH = True
+    map.lineList[3][5].murG = True
+    map.lineList[3][7].murH = True
+    
+    map.lineList[4][1].murH = True
+    map.lineList[4][2].murD = True
+    map.lineList[4][3].murG = True
+    map.lineList[4][3].murB = True
+    map.lineList[4][4].murD = True
+    map.lineList[4][4].murB = True
+    map.lineList[4][5].murG = True
+    map.lineList[4][5].murB = True
+    
+    map.lineList[5][0].murD = True
+    map.lineList[5][1].murG = True
+    map.lineList[5][3].murH = True
+    map.lineList[5][4].murH = True
+    map.lineList[5][5].murH = True
+    
+    map.lineList[6][2].murD = True
+    map.lineList[6][3].murG = True
+    map.lineList[6][6].murD = True
+    map.lineList[6][7].murG = True
+    map.lineList[6][7].murB = True
+    
+    map.lineList[7][3].murD = True
+    map.lineList[7][4].murG = True
+    map.lineList[7][7].murH = True
 # ====================================================
