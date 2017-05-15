@@ -8,4 +8,6 @@ class Individu ():
     def __init__(self, passages =[0], note =0):
         self.passages = passages
         self.note = note
+    # ====================================================
 
+# ====================================================
