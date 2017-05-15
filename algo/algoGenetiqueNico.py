@@ -1,3 +1,22 @@
+
+def init(nbPopulation, carte):
+	lesIndividus = []
+	while(nbPopulation > 0):
+		# Nombre de coup a jouer pour un individus
+		rannbCoup =  random.randint(10, 20)
+		
+		lesCoups = []
+		while rannbCoup > 0:
+			rannbCoup = rannbCoup - 1
+			lesCoups.append(generateMovements(carte))
+
+		individusCourant.passages = lesCoups
+		individusCourant.note = 0
+
+		lesIndividus.append(individusCourant)
+		nbPopulation = nbPopulation - 1
+	return lesIndividus
+
 # Ici on se deplacement sur la carte
 # On gere les collisions, les demis tour etc...
 def generateMovements(carte):
@@ -16,9 +35,6 @@ def generateMovements(carte):
  	return deplaRandom
 
 
-############################################""Penser a faire les colission individu
-############################################""Penser a faire les colission individu
-############################################""Penser a faire les colission individu
 
 # Verifie si mur sur notre deplacement
 # positionIndividu : position du individu initial
@@ -29,6 +45,7 @@ def gestionCollision(positionIndividu, deplacement, carte):
 	# ici gerer la carte pour les collisions
 	tailleCarte = len(carte) - 1
 
+	# Verification de sortie de la carte
 	# Pour la carte on prend la case 0
 	if(positionIndividu[0] >= 0 and positionIndividu[0] < tailleCarte):	#x
 		positionIndividu[0] = positionIndividu[0] + deplacement[0]
@@ -68,8 +85,36 @@ def deplacementRandom():
    
 
 # Note notre individu 
-# entrée : un individus
-# Sortie : Note de l'indidus
-def evaluateMovements(individus):
+# entrée : un individus, la carte
+# Sortie : Note de l'individus
+def evaluateMovements(individus, carte):
+	note = 1
 
-	return 0
+	# Ici le nombre de coup est multiplier a la note
+	nbcoup = individus.passages.length
+	note = note * nbcoup
+
+	lastPositionIndividus = individus.passages[nbcoup-1]
+	yDiff = lastPositionIndividus[0] - carte.arrivalX
+	yDiff = lastPositionIndividus[1] - carte.arrivalY
+	
+	if(yDiff < 0):
+		yDiff = yDiff * (-1)
+	if(xDiff < 0):
+		xDiff = xDiff * (-1)
+
+	# Verifier si un mur sur la route du dernier coup (si mur alors augmentation de la note)
+
+
+	#La distance entre le dernier coup jouer et l'arrive est multiplier pour x et y
+	note = note * yDiff
+	note = note * xDiff
+
+
+
+	note = (1 / note) * 100
+	return note
+
+
+
+
