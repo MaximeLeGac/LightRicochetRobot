@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import sys
+sys.path.insert(0, '../model')
+
 import Map
 import Robot
 import Case
@@ -33,16 +36,16 @@ def init():
 
 # ====================================================
 # Méthode de génération de la carte
-# index : Inddex de la Map
+# index : Index de la Map
 def generateMap(index):
-    
+
     # Initialise la map
     map = Map()
-    
+
     # Remplit la map de cases
     fillMap(map)
 
-    # Assigne les obstacles correspondant à l amap attendue
+    # Assigne les obstacles correspondant à la map attendue
     if index == 1:
         # obstacles de la 1ère  map
         setWallsMap1(map)
@@ -52,7 +55,7 @@ def generateMap(index):
     elif index == 3:
         # obstacles de la 3e map
         setWallsMap2(map)
-    
+
     # Génère la position d'arrivée
     map.initArrival()
 
@@ -100,7 +103,7 @@ def setWallsMap1(map):
     map.lineList[3][4].murH = True
     map.lineList[3][5].murG = True
     map.lineList[3][7].murH = True
-    
+
     map.lineList[4][1].murH = True
     map.lineList[4][2].murD = True
     map.lineList[4][3].murG = True
@@ -109,19 +112,19 @@ def setWallsMap1(map):
     map.lineList[4][4].murB = True
     map.lineList[4][5].murG = True
     map.lineList[4][5].murB = True
-    
+
     map.lineList[5][0].murD = True
     map.lineList[5][1].murG = True
     map.lineList[5][3].murH = True
     map.lineList[5][4].murH = True
     map.lineList[5][5].murH = True
-    
+
     map.lineList[6][2].murD = True
     map.lineList[6][3].murG = True
     map.lineList[6][6].murD = True
     map.lineList[6][7].murG = True
     map.lineList[6][7].murB = True
-    
+
     map.lineList[7][3].murD = True
     map.lineList[7][4].murG = True
     map.lineList[7][7].murH = True
@@ -154,7 +157,7 @@ def setWallsMap2(map):
     map.lineList[3][4].murH = True
     map.lineList[3][5].murG = True
     map.lineList[3][7].murH = True
-    
+
     map.lineList[4][1].murH = True
     map.lineList[4][2].murD = True
     map.lineList[4][3].murG = True
@@ -163,19 +166,19 @@ def setWallsMap2(map):
     map.lineList[4][4].murB = True
     map.lineList[4][5].murG = True
     map.lineList[4][5].murB = True
-    
+
     map.lineList[5][0].murD = True
     map.lineList[5][1].murG = True
     map.lineList[5][3].murH = True
     map.lineList[5][4].murH = True
     map.lineList[5][5].murH = True
-    
+
     map.lineList[6][2].murD = True
     map.lineList[6][3].murG = True
     map.lineList[6][6].murD = True
     map.lineList[6][7].murG = True
     map.lineList[6][7].murB = True
-    
+
     map.lineList[7][3].murD = True
     map.lineList[7][4].murG = True
     map.lineList[7][7].murH = True
@@ -208,7 +211,7 @@ def setWallsMap3(map):
     map.lineList[3][4].murH = True
     map.lineList[3][5].murG = True
     map.lineList[3][7].murH = True
-    
+
     map.lineList[4][1].murH = True
     map.lineList[4][2].murD = True
     map.lineList[4][3].murG = True
@@ -217,19 +220,19 @@ def setWallsMap3(map):
     map.lineList[4][4].murB = True
     map.lineList[4][5].murG = True
     map.lineList[4][5].murB = True
-    
+
     map.lineList[5][0].murD = True
     map.lineList[5][1].murG = True
     map.lineList[5][3].murH = True
     map.lineList[5][4].murH = True
     map.lineList[5][5].murH = True
-    
+
     map.lineList[6][2].murD = True
     map.lineList[6][3].murG = True
     map.lineList[6][6].murD = True
     map.lineList[6][7].murG = True
     map.lineList[6][7].murB = True
-    
+
     map.lineList[7][3].murD = True
     map.lineList[7][4].murG = True
     map.lineList[7][7].murH = True
