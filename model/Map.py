@@ -1,9 +1,9 @@
 # Classe Map
-# Représente une carte
+# ReprÃ©sente une carte
 class Map():
 
     # ====================================================
-    # Méthode d'initialisation
+    # MÃ©thode d'initialisation
     # size  : Taille de la Map
     def __init__(self, size =0):
 
@@ -17,36 +17,36 @@ class Map():
 
     # ====================================================
     # Ajoute une ligne
-    # Méthode helper pour insérer les cases
-    # line  : La nouvelle ligne à ajouter
+    # MÃ©thode helper pour insÃ©rer les cases
+    # line  : La nouvelle ligne Ã  ajouter
     def appenLine(self, line):
 
         # On ajoute pas de nouvelles lignes si la grille est pleine
-        if (line.__le__ == self.size - 1 && self.lineList.__le__ < self.size - 1):
+        if (line.__le__ == self.size - 1 & self.lineList.__le__ < self.size - 1):
             self.lineList.append(line)
     # ====================================================
 
 
     # ====================================================
-    # Définit le point d'arrivée de la carte
+    # DÃ©finit le point d'arrivÃ©e de la carte
     def initArrival(self):
 
-        # Initialise les coordonnées du point d'arrivée
+        # Initialise les coordonnÃ©es du point d'arrivÃ©e
         self.arrivalX = random.randint(0, self.size)
         self.arrivalY = random.randint(0, self.size)
     # ====================================================
 
 
     # ====================================================
-    # Méthode d'initialisation d'un robot
+    # MÃ©thode d'initialisation d'un robot
     def initRobotList(self):
 
-        # Génère les coordonnées de départ du robot
+        # GÃ©nÃ¨re les coordonnÃ©es de dÃ©part du robot
         x = random.randint(0, self.size)
         y = random.randint(0, self.size)
 
         # Initialise le robot
         self.robotList.append(Robot(x, y))
     # ====================================================
-    
+
 # ====================================================

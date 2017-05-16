@@ -32,7 +32,7 @@ def generateMovements(carte):
  			positionTempo = positionCourante
  		else:
  			stop = 1
- 	return deplaRandom
+	return deplaRandom
 
 
 
@@ -52,7 +52,7 @@ def gestionCollision(positionIndividu, deplacement, carte):
 	elif(positionIndividu[1] >= 0 and positionIndividu[1] < tailleCarte): #y
 		positionIndividu[1] = positionIndividu[1] + deplacement[1]
 	else:
-
+		print('lol')
 ############################################""Penser a faire les colission MUR
 ############################################""Penser a faire les colission MUR
 ############################################""Penser a faire les colission MUR

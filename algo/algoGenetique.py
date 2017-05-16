@@ -1,4 +1,4 @@
-import RicochetMap
+#import RicochetMap
 import random
 
 import algoGenetiqueMax
@@ -14,17 +14,17 @@ CONST_NB_GENERATION = 5
 
 
 def controller(carte):
-	
+
 	#Init de la pop
 	init(CONST_TAILLE_POPULATION, carte)
 
 	for e in range(CONST_NB_GENERATION):
 		for i in range(CONST_TAILLE_POPULATION):
 
-			#on évalue un individus
+			#on Ã©value un individus
 			evaluateMovements(individus, carte)
 
-			#Selection 
+			#Selection
 
 			#Croisement
 
