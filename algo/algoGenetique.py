@@ -25,7 +25,7 @@ def controller(carte):
 			evaluateMovements(individus, carte)
 
 			#Selection
-
+			selectionRoulette(individus)
 			#Croisement
 
 			#Muter
