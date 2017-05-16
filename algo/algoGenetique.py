@@ -24,7 +24,8 @@ def controller(carte):
 			#on évalue un individus
 			evaluateMovements(individus, carte)
 
-			#Selection 
+			#Selection
+			selectionRoulette(individus)
 
 			#Croisement
 
