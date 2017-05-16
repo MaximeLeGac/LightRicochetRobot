@@ -1,9 +1,46 @@
 import random
 
 
-def selectionRoulette():
+def selectionRoulette(population):
 
-    return 0
+    # Génération d'un Offset maximum avec 1/4 de la totalité des notes
+    maxOffset = 1
+    totalNote = 0
+    for k in range(len(population)):
+        note = population[k].note
+        if(float(note) > maxOffset):
+            totalNote = totalNote + float(note)
+
+        maxOffset = int(round(totalNote/4,0))
+
+    # Maintenant nous randomisons afin de créer l'offset
+    offset = random.randint(1, maxOffset)
+
+    tempo = 0
+    couple = ""
+    nbPop = 0
+    offsetFin = 0
+    # I love potatoes
+    taille = len(population)
+    while nbPop < taille:
+
+        for x in range(0, taille):
+            if(nbPop < taille):
+                note = population[k].note
+                tempo = tempo + float(note)
+                if(tempo >= offset):
+                    if(couple != ""):
+                        couple = couple + "_" + str(x)
+                        nbPop = nbPop + 1
+                    else:
+                        couple = str(x)
+                        nbPop = nbPop + 1
+
+                    offset = offset + offset
+                if(x == (taille-1)):
+                    offset = 0-(tempo - offset)
+
+    return couple
 
 
 # Méthode permettant de croiser les déplacements de 2 individus parents pour créer 2 individus enfants

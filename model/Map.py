@@ -5,13 +5,14 @@ class Map():
     # ====================================================
     # MÃ©thode d'initialisation
     # size  : Taille de la Map
-    def __init__(self, size =0):
+    def __init__(self):
 
         # Initialisation la grille de la carte
-        self.lineList = [size][size]
-        self.size = size
+        self.size = 8
+        self.lineList = [self.size][self.size]
         self.arrivalX = 0
         self.arrivalY = 0
+        self.robotList = [4]
     # ====================================================
 
 
@@ -34,6 +35,14 @@ class Map():
         # Initialise les coordonnÃ©es du point d'arrivÃ©e
         self.arrivalX = random.randint(0, self.size)
         self.arrivalY = random.randint(0, self.size)
+
+        # Les coordonnées ne peuvent pas tombées dans le carré central
+        index = ((self.size-2)/2)
+        while self.arrivalX == index or self.arrivalX == index+1:
+            self.arrivalX = random.randint(0, self.size)
+
+        while self.arrivalY == index or self.arrivalY == index+1:
+            self.arrivalY = random.randint(0, self.size)
     # ====================================================
 
 
@@ -44,6 +53,14 @@ class Map():
         # GÃ©nÃ¨re les coordonnÃ©es de dÃ©part du robot
         x = random.randint(0, self.size)
         y = random.randint(0, self.size)
+
+        # Les coordonnées ne peuvent pas tombées dans le carré central
+        index = ((self.size-2)/2)
+        while x == index or x == index+1:
+            x = random.randint(0, self.size)
+
+        while y == index or y == index+1:
+            y = random.randint(0, self.size)
 
         # Initialise le robot
         self.robotList.append(Robot(x, y))
