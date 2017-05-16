@@ -43,6 +43,8 @@ def selectionRoulette(population):
     return couple
 
 
+
+
 # Méthode permettant de croiser les déplacements de 2 individus parents pour créer 2 individus enfants
 def croiser(individu_parent1, individu_parent2, nouveaux_individus):
 
