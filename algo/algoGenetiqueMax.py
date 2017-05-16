@@ -40,7 +40,13 @@ def selectionRoulette(population):
                 if(x == (taille-1)):
                     offset = 0-(tempo - offset)
 
-    return couple
+    couples = []
+    maSelection = couple.split("_")
+    for i in range(0, len(maSelection)):
+        select = int(maSelection[i])
+        couples.append(select)
+
+    return couples
 
 
 
