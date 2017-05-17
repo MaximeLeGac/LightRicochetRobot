@@ -1,10 +1,31 @@
 angular.module('app.algo').factory('genetique', function ($rootScope) {
     var genetique = {}
 
-    genetique.controlAlgo = function(carte){
+    genetique.test = function(){
+    	var size = 10;
+    	$rootScope.map = $rootScope.generateMap();
+	    for (var x = 0; x < size; x++) {
+	        var line = [size];
+	        for (var y = 0; y < size; y++) {
+	            var cell = $rootScope.case(x, y)
+	            cell.murH = (x == 0);
+	            cell.murB = (x == $rootScope.map.size-1);
+	            cell.murG = (y == 0);
+	            cell.murD = (y == $rootScope.map.size-1);
+	            line[y] = cell;
+	        }
+	        $rootScope.map[x] = line;
+	    }
 
-		//Init de la pop
-		var lesIndividus = init(CONST_TAILLE_POPULATION, carte)
+    }
+    
+    genetique.controlAlgo = function(carte){
+    	var CONST_TAILLE_POPULATION = 10;
+    	var CONST_NB_GENERATION = 5;
+
+		//Init de la population d'individus
+		var lesIndividus = this.init(CONST_TAILLE_POPULATION, carte)
+
 		for (var e = 0; e < CONST_NB_GENERATION; e++) {
 		    for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
 		    	// Evaluate individual
@@ -26,7 +47,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
     }
 
 	// Prepare tous les deplacements d'un individusCourant
-    genetique.init = function (nbPop, carte) {
+    genetique.init = function(nbPopulation, carte) {
 		var lesIndividus = [];
 	    while(nbPopulation > 0){
 	        // Nombre de coup a jouer pour un individus
@@ -35,7 +56,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	        var lesCoups = [];
 	        while(rannbCoup > 0) {
 	            rannbCoup = rannbCoup - 1;
-	            lesCoup.push(generateMovements(carte));
+	            lesCoups.push(this.gestionMovements(carte));
 	        }
 	        individusCourant.passages = lesCoups;
 	        individusCourant.note = 0;
@@ -47,17 +68,17 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
 	// Ici on se deplacement sur la carte
 	// On gere les collisions, les demis tour etc...
-    genetique.generateMovements = function(carte){
-    	var deplaRandom = deplacementRandom();
+    genetique.gestionMovements = function(carte){
+    	var deplaRandom = this.deplacementRandom();
 	    var positionTempo = [];
 	    var positionCourante = []; //Position du individu x, y
 	    var stop = 0;
 	    // Tant que nos position son différente nous continuons a avancer (pour faire la ligne complete)
 	    while(stop == 0){
 	        // Si notre position reste la meme alors nous avons taper un mur et on sort de la boucle 
-	        positionCourante = gestionCollision(positionCourante, deplaRandom, carte)
+	        positionCourante = this.gestionCollision([carte.robotList[0].x, carte.robotList[0].y], deplaRandom, carte)
 	        if(positionTempo != positionCourante){
-	            positionTempo = positionCourante
+	            positionTempo = positionCourante;
 	        }else{
 	            stop = 1
 	        }
@@ -73,6 +94,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	genetique.gestionCollision = function(positionIndividu, deplacement, carte){
 		// ici gerer la carte pour les collisions
 	    var tailleCarte = carte.size - 1
+	    console.log(positionIndividu);
 
 	    var posX = positionIndividu[0] + deplacement[0];
 	    var posY = positionIndividu[1] + deplacement[1];
@@ -109,15 +131,15 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	genetique.deplacementRandom = function(){
 	    var ran = Math.floor(Math.random() * 4) + 1;
 	    if(ran == 1){
-	        return position[0, 1]   // H
+	        return [0, 1]   // H
 	    }else if(ran == 2){
-	        return position[0, -1]  // B
+	        return [0, -1]  // B
 	    }else if(ran == 3){
-	        return position[1, 0]   // D
+	        return [1, 0]   // D
 	    }else if(ran == 4){
-	        return position[-1, 0]  // G
+	        return [-1, 0]  // G
 	    }else{
-	        return position[0, 1]   // H
+	        return [0, 1]   // H
 	    }
 	}
 
@@ -232,16 +254,19 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	}
 
 	// Note notre individu
-	// entrée : un individus, la carte
-	// Sortie : Note de l'individus
-	genetique.evaluateMovements = function(individus, carte){
+	// entrée : un individu, la carte
+	// Sortie : Note de l'individu
+	genetique.evaluateMovements = function(individu, carte){
 	    var note = 1
 
 	    // Ici le nombre de coup est multiplier a la note
-	    var nbcoup = individus.passages.length;
-	    note = note * nbcoup;
+	    var nbCoups = individu.passages.length;
+	    var nbCoupsGagnant = individu.nb_deplacements_gagnant;
 
-	    var lastPositionIndividus = individus.passages[nbcoup-1];
+	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
+	    if (nbCoupsGagnant > 0) note *= nbCoupsGagnant;
+
+	    var lastPositionIndividus = individu.passages[nbCoups-1];
 	    var xDiff = lastPositionIndividus[0] - carte.arrivalX;
 	    var yDiff = lastPositionIndividus[1] - carte.arrivalY;
 
@@ -261,9 +286,11 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
 
 	    //La distance entre le dernier coup jouer et l'arrive est multiplier pour x et y
-	    note = note * yDiff;
-	    note = note * xDiff;
+	    note *= yDiff;
+	    note *= xDiff;
+
 	    note = (1 / note) * 100;
+
 	    return note;
 	}
 
