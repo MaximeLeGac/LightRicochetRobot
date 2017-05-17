@@ -1,22 +1,6 @@
 angular.module('app.algo').factory('genetique', function ($rootScope) {
     var genetique = {}
 
-    genetique.test = function(){
-    	var size = 10;
-    	$rootScope.map = $rootScope.generateMap();
-	    for (var x = 0; x < size; x++) {
-	        var line = [size];
-	        for (var y = 0; y < size; y++) {
-	            var cell = $rootScope.case(x, y)
-	            cell.murH = (x == 0);
-	            cell.murB = (x == $rootScope.map.size-1);
-	            cell.murG = (y == 0);
-	            cell.murD = (y == $rootScope.map.size-1);
-	            line[y] = cell;
-	        }
-	        $rootScope.map[x] = line;
-	    }
-    }
  
     genetique.controlAlgo = function(carte){
     	var CONST_TAILLE_POPULATION = 10;
@@ -55,7 +39,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 				idIndividusChoice = u;
 			}
 		}
-		// ont retourne la liste de deplacement de l'individus
+		// ont retourne la liste de deplacement du meilleurs individus
 		return lesIndividus[idIndividusChoice].passages;
     }
 
@@ -214,16 +198,6 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    nouveaux_individus.push(bebe_1);
 	    nouveaux_individus.push(bebe_2);
 
-	    /*console.log("bebe")
-	    console.log(bebe_1.passages);
-	    console.log(bebe_2.passages);
-
-	    console.log("         ");
-	    console.log(hauteur_croisement);
-	    console.log("         ");
-	    console.log(individu_parent1.passages);
-	    console.log(individu_parent2.passages);*/
-
 	    return nouveaux_individus;
 	}
 
@@ -337,15 +311,9 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		var cpt = 0;
 
 
-		//console.log(individu.passages);
 		while (nb_coups_gagnant == 0 && cpt < individu.passages.length) {
 			// Appel à la méthode gestionCollision qui va nous renvoyer la position du robot après déplacement
 			
-			/*
-			console.log(cpt);
-			console.log(individu.passages.length);
-			console.log(individu.passages[cpt]);
-			*/
 			
 			posCourante = this.gestionCollision([posX, posY], individu.passages[cpt], carte);
 
