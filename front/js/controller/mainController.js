@@ -50,7 +50,7 @@ angular.module('app.controllers')
             initMap1($rootScope.map);
         }
         else if ($scope.mapIndex == 2) {
-            initMap2(m$rootScope.mapap);
+            initMap2($rootScope.map);
         }
         else if ($scope.mapIndex == 3) {
             initMap3($rootScope.map);
@@ -75,6 +75,7 @@ angular.module('app.controllers')
         map.lineList[2][3].murB = true
         map.lineList[2][4].murG = true
         map.lineList[2][4].murB = true
+        map.lineList[2][5].murH = true
         map.lineList[2][7].murB = true
 
         map.lineList[3][1].murB = true
@@ -127,6 +128,7 @@ angular.module('app.controllers')
         map.lineList[2][3].murB = true
         map.lineList[2][4].murG = true
         map.lineList[2][4].murB = true
+        map.lineList[2][5].murH = true
         map.lineList[2][7].murB = true
 
         map.lineList[3][1].murB = true
@@ -179,6 +181,7 @@ angular.module('app.controllers')
         map.lineList[2][3].murB = true
         map.lineList[2][4].murG = true
         map.lineList[2][4].murB = true
+        map.lineList[2][5].murH = true
         map.lineList[2][7].murB = true
 
         map.lineList[3][1].murB = true
