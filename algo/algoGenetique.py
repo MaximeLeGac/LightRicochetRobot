@@ -27,10 +27,9 @@ def controller(carte):
 		for i in range(CONST_TAILLE_POPULATION):
 			# Evaluate individual
 			lesIndividus[i].note = evaluateMovements(lesIndividus[i], carte)
-
+			print(lesIndividus[i])
 
 		# Select individuals
 		lucky_individuals = selectionRoulette(lesIndividus)
 
 		#Croisement / muter
-	

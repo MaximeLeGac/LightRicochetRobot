@@ -1,6 +1,6 @@
 # Classe Map
 # ReprÃ©sente une carte
-class Map():
+class Map:
 
     # ====================================================
     # MÃ©thode d'initialisation

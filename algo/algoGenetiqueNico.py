@@ -114,7 +114,3 @@ def evaluateMovements(individus, carte):
 
     note = (1 / note) * 100
     return note
-
-
-
-

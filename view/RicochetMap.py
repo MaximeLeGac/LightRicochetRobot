@@ -10,12 +10,12 @@ import random
 import webbrowser
 
 # ====================================================
-# Initialise la carte, l'arrivée et appelle le controller pour lancer les déplacements
+# Initialise la carte, l'arrivÃ©e et appelle le controller pour lancer les dÃ©placements
 def init():
-    # Demande l'index de la map souhaitée
+    # Demande l'index de la map souhaitÃ©e
     index = 1
 
-    # Génère la map
+    # GÃ©nÃ¨re la map
     map = generateMap(index)
 
     # Gestion de la vue
@@ -35,19 +35,19 @@ def init():
 
 
 # ====================================================
-# Méthode de génération de la carte
+# MÃ©thode de gÃ©nÃ©ration de la carte
 # index : Index de la Map
 def generateMap(index):
 
     # Initialise la map
-    map = Map()
+    map = Map
 
     # Remplit la map de cases
     fillMap(map)
 
-    # Assigne les obstacles correspondant à la map attendue
+    # Assigne les obstacles correspondant Ã  la map attendue
     if index == 1:
-        # obstacles de la 1ère  map
+        # obstacles de la 1Ã¨re  map
         setWallsMap1(map)
     elif index == 2:
         # obstacles de la 2e map
@@ -56,10 +56,10 @@ def generateMap(index):
         # obstacles de la 3e map
         setWallsMap2(map)
 
-    # Génère la position d'arrivée
+    # GÃ©nÃ¨re la position d'arrivÃ©e
     map.initArrival()
 
-    # Génère les robots de la map
+    # GÃ©nÃ¨re les robots de la map
     map.initRobotList()
 
     return map
@@ -69,9 +69,11 @@ def generateMap(index):
 # ====================================================
 # Remplit une map
 def fillMap(map):
-    for x in xrange(map.size):
+    
+    print(map.size)
+    for x in range(map.size):
         line = [map.size]
-        for y in xrange(map.size):
+        for y in range(map.size):
             line[y] = Case(x, y)
         map.appendLine(line)
 # ====================================================
