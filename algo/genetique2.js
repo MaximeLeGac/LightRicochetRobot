@@ -101,17 +101,19 @@ function evaluateMovements(individus, carte){
     var note = 1
 
     // Ici le nombre de coup est multiplier a la note
-    var nbcoup = individus.passages.length
-    note = note * nbcoup
+    var nbcoup = individus.passages.length;
+    note = note * nbcoup;
 
-    var lastPositionIndividus = individus.passages[nbcoup-1]
-    var yDiff = lastPositionIndividus[0] - carte.arrivalX
-    var yDiff = lastPositionIndividus[1] - carte.arrivalY
+    var lastPositionIndividus = individus.passages[nbcoup-1];
+    var xDiff = lastPositionIndividus[0] - carte.arrivalX;
+    var yDiff = lastPositionIndividus[1] - carte.arrivalY;
 
-    if(yDiff < 0):
-        yDiff = yDiff * (-1)
-    if(xDiff < 0):
-        xDiff = xDiff * (-1)
+    if(yDiff < 0){
+        yDiff = yDiff * (-1);
+    }
+    if(xDiff < 0){
+        xDiff = xDiff * (-1);
+    }
 
     // Verifier si un mur sur la route du dernier coup (si mur alors augmentation de la note)
     // Verifier si un mur sur la route du dernier coup (si mur alors augmentation de la note)
@@ -122,8 +124,8 @@ function evaluateMovements(individus, carte){
 
 
     //La distance entre le dernier coup jouer et l'arrive est multiplier pour x et y
-    note = note * yDiff
-    note = note * xDiff
-    note = (1 / note) * 100
-    return note
+    note = note * yDiff;
+    note = note * xDiff;
+    note = (1 / note) * 100;
+    return note;
 }
