@@ -3,7 +3,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
     genetique.controlAlgo = function(carte){
 
-		//Init de la pop
+		//Init de la population d'individus
 		var lesIndividus = init(CONST_TAILLE_POPULATION, carte)
 		for (var e = 0; e < CONST_NB_GENERATION; e++) {
 		    for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
@@ -232,16 +232,19 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	}
 
 	// Note notre individu
-	// entrée : un individus, la carte
-	// Sortie : Note de l'individus
-	genetique.evaluateMovements = function(individus, carte){
+	// entrée : un individu, la carte
+	// Sortie : Note de l'individu
+	genetique.evaluateMovements = function(individu, carte){
 	    var note = 1
 
 	    // Ici le nombre de coup est multiplier a la note
-	    var nbcoup = individus.passages.length;
-	    note = note * nbcoup;
+	    var nbCoups = individu.passages.length;
+	    var nbCoupsGagnant = individu.nb_deplacements_gagnant;
 
-	    var lastPositionIndividus = individus.passages[nbcoup-1];
+	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
+	    if (nbCoupsGagnant > 0) note *= nbCoupsGagnant;
+
+	    var lastPositionIndividus = individu.passages[nbCoups-1];
 	    var xDiff = lastPositionIndividus[0] - carte.arrivalX;
 	    var yDiff = lastPositionIndividus[1] - carte.arrivalY;
 
@@ -261,9 +264,11 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
 
 	    //La distance entre le dernier coup jouer et l'arrive est multiplier pour x et y
-	    note = note * yDiff;
-	    note = note * xDiff;
+	    note *= yDiff;
+	    note *= xDiff;
+
 	    note = (1 / note) * 100;
+
 	    return note;
 	}
 
