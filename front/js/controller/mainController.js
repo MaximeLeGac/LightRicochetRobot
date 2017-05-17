@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-.controller('mainController', function($scope, $rootScope) {
+.controller('mainController', function($scope, $rootScope, genetique) {
 
     $scope.mapIndex = 0;
 
