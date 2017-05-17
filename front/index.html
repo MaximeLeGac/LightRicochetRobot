@@ -3,25 +3,33 @@
     <head>
         <link rel="stylesheet" href="css/style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-        <script src="js/model/individu.js"></script>
+        <script src="js/module.js"></script>
+        <script src="js/app.js"></script>
+        <!--<script src="js/model/individu.js"></script>
         <script src="js/model/robot.js"></script>
         <script src="js/model/case.js"></script>
         <script src="js/model/map.js"></script>
         <script src="js/utils/ricochet.js"></script>
-        <script src="js/algo/genetique.js"></script>
+        <script src="js/algo/genetique.js"></script>-->
         <script src="js/controller/mainController.js"></script>
-        <script src="js/module.js"></script>
-        <script src="js/app.js"></script>
     </head>
     <body ng-app="app">
+        <div class="row" ng-controller="mainController">
+            
+            <div class="col-xs-12">
+                <button ng-click="start()">START</button>
+            </div>
 
-        <div ng-controller="mainController">
+            <div class="col-xs-12">
+                <table>
+                    <tr ng-repeat="line in map">
+                        <td ng-repeat="case in line" ng-class="{border-top : case.murH, border-bottom : case.murB, border-left : case.murG, border-right : case.murD}">
+                            {{case}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-            <button>START</button>
-
-            <p>Name : <input type="text" ng-model="name"></p>
-            <h1>Hello {{name}}</h1>
         </div>
-
     </body>
 </html>
