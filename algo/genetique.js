@@ -114,7 +114,6 @@ function muter(individu) {
 
 
 
-
 // Prepare tous les deplacements d'un individusCourant
 function init(nbPopulation, carte){
     var lesIndividus = [];
