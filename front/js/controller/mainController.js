@@ -1,6 +1,10 @@
 angular.module('app.controllers')
 .controller('mainController', function($scope, $rootScope, genetique) {
 
+
+    //genetique.test();
+    //genetique.controlAlgo($rootScope.map);
+
     $scope.mapIndex = 0;
 
     var size = 8;
