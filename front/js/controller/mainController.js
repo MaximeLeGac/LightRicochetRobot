@@ -1,14 +1,14 @@
 angular.module('app.controllers')
 .controller('mainController', function($scope, $rootScope, genetique) {
 
-    $scope.mapIndex = 0;
+    $scope.mapIndex = 1;
+    var colors = ['blue', 'yellow', 'greeb', 'red']
 
-    var size = 8;
-
+    // Définit l'initialisation de la map
     $rootScope.map = $rootScope.generateMap();
-    for (var x = 0; x < size; x++) {
-        var line = [size];
-        for (var y = 0; y < size; y++) {
+    for (var x = 0; x < $rootScope.map.size; x++) {
+        var line = [$rootScope.map.size];
+        for (var y = 0; y < $rootScope.map.size; y++) {
             var cell = $rootScope.case(x, y)
             cell.murH = (x == 0);
             cell.murB = (x == $rootScope.map.size-1);
@@ -16,15 +16,15 @@ angular.module('app.controllers')
             cell.murD = (y == $rootScope.map.size-1);
             line[y] = cell;
         }
-        $rootScope.map[x] = line;
+        $rootScope.map.lineList[x] = line;
     }
 
-
+    // Gère la lancement d'une partie
     $scope.start = function() {
-        console.log('start');
-        
-        $rootScope.map.arrivalX = Math.floor(Math.random() * size);
-        $rootScope.map.arrivalY = Math.floor(Math.random() * size);
+
+        // Définit la case d'arrivée        
+        $rootScope.map.arrivalX = Math.floor(Math.random() * $rootScope.map.size);
+        $rootScope.map.arrivalY = Math.floor(Math.random() * $rootScope.map.size);
         var index = (($rootScope.map.size-2)/2);
         while ($rootScope.map.arrivalX == index || $rootScope.map.arrivalX == index+1) {
           $rootScope.map.arrivalX = Math.floor(Math.random() * $rootScope.map.size);
@@ -33,71 +33,87 @@ angular.module('app.controllers')
           $rootScope.map.arrivalY = Math.floor(Math.random() * $rootScope.map.size);
         }
 
-        // Genere les coordonnees de depart du robot
-        var x = Math.floor(Math.random() * size);
-        var y = Math.floor(Math.random() * size);
+        // Définit la case de départ du robot
+        var x = Math.floor(Math.random() * $rootScope.map.size);
+        var y = Math.floor(Math.random() * $rootScope.map.size);
         var index = (($rootScope.map.size-2)/2);
         while (x == index || x == index+1) {
           x = Math.floor(Math.random() * $rootScope.map.size);
         }
-
         while (y == index || y == index+1) {
-          y = Math.floor(Math.random() * size);
+          y = Math.floor(Math.random() * $rootScope.map.size);
         }
         $rootScope.map.robotList.push($rootScope.robot(x, y));
 
-        $rootScope.map.lineList[0][1].murB = True
-
-        $rootScope.map.lineList[1][0].murD = True
-        $rootScope.map.lineList[1][1].murG = True
-        $rootScope.map.lineList[1][1].murH = True
-        $rootScope.map.lineList[1][4].murD = True
-        $rootScope.map.lineList[1][5].murG = True
-        $rootScope.map.lineList[1][5].murB = True
-
-        $rootScope.map.lineList[2][3].murD = True
-        $rootScope.map.lineList[2][3].murB = True
-        $rootScope.map.lineList[2][4].murG = True
-        $rootScope.map.lineList[2][4].murB = True
-        $rootScope.map.lineList[2][7].murB = True
-
-        $rootScope.map.lineList[3][1].murB = True
-        $rootScope.map.lineList[3][2].murD = True
-        $rootScope.map.lineList[3][3].murG = True
-        $rootScope.map.lineList[3][3].murH = True
-        $rootScope.map.lineList[3][4].murD = True
-        $rootScope.map.lineList[3][4].murH = True
-        $rootScope.map.lineList[3][5].murG = True
-        $rootScope.map.lineList[3][7].murH = True
-
-        $rootScope.map.lineList[4][1].murH = True
-        $rootScope.map.lineList[4][2].murD = True
-        $rootScope.map.lineList[4][3].murG = True
-        $rootScope.map.lineList[4][3].murB = True
-        $rootScope.map.lineList[4][4].murD = True
-        $rootScope.map.lineList[4][4].murB = True
-        $rootScope.map.lineList[4][5].murG = True
-        $rootScope.map.lineList[4][5].murB = True
-
-        $rootScope.map.lineList[5][0].murD = True
-        $rootScope.map.lineList[5][1].murG = True
-        $rootScope.map.lineList[5][3].murH = True
-        $rootScope.map.lineList[5][4].murH = True
-        $rootScope.map.lineList[5][5].murH = True
-
-        $rootScope.map.lineList[6][2].murD = True
-        $rootScope.map.lineList[6][3].murG = True
-        $rootScope.map.lineList[6][6].murD = True
-        $rootScope.map.lineList[6][7].murG = True
-        $rootScope.map.lineList[6][7].murB = True
-
-        $rootScope.map.lineList[7][3].murD = True
-        $rootScope.map.lineList[7][4].murG = True
-        $rootScope.map.lineList[7][7].murH = True
+        // Lance l'initialisation de la map demandée
+        if ($scope.mapIndex == 1) {
+            initMap1($rootScope.map);
+        }
+        else if (scope.mapIndex == 2) {
+            initMap2(m$rootScope.mapap);
+        }
+        else if (scope.mapIndex == 3) {
+            initMap3($rootScope.map);
+        }
     }
 
+    // Initialise la map 1
+    function initMap1(map) {
+        map.lineList[0][1].murB = true
+
+        map.lineList[1][0].murD = true
+        map.lineList[1][1].murG = true
+        map.lineList[1][1].murH = true
+        map.lineList[1][4].murD = true
+        map.lineList[1][5].murG = true
+        map.lineList[1][5].murB = true
+
+        map.lineList[2][3].murD = true
+        map.lineList[2][3].murB = true
+        map.lineList[2][4].murG = true
+        map.lineList[2][4].murB = true
+        map.lineList[2][7].murB = true
+
+        map.lineList[3][1].murB = true
+        map.lineList[3][2].murD = true
+        map.lineList[3][3].murG = true
+        map.lineList[3][3].murH = true
+        map.lineList[3][4].murD = true
+        map.lineList[3][4].murH = true
+        map.lineList[3][5].murG = true
+        map.lineList[3][7].murH = true
+
+        map.lineList[4][1].murH = true
+        map.lineList[4][2].murD = true
+        map.lineList[4][3].murG = true
+        map.lineList[4][3].murB = true
+        map.lineList[4][4].murD = true
+        map.lineList[4][4].murB = true
+        map.lineList[4][5].murG = true
+        map.lineList[4][5].murB = true
+
+        map.lineList[5][0].murD = true
+        map.lineList[5][1].murG = true
+        map.lineList[5][3].murH = true
+        map.lineList[5][4].murH = true
+        map.lineList[5][5].murH = true
+
+        map.lineList[6][2].murD = true
+        map.lineList[6][3].murG = true
+        map.lineList[6][6].murD = true
+        map.lineList[6][7].murG = true
+        map.lineList[6][7].murB = true
+
+        map.lineList[7][3].murD = true
+        map.lineList[7][4].murG = true
+        map.lineList[7][7].murH = true
+    }
+
+    // Permet de gérer l'affichage des murs d'un map
     $scope.getCellClassName = function(cell) {
         var className = "";
+
+        // Affichage des murs
         if (cell.murH) {
             className += "border-top ";
         }
@@ -110,6 +126,19 @@ angular.module('app.controllers')
         if (cell.murD) {
             className += "border-right ";
         }
+
+        // Affichage des robots
+        $rootScope.map.robotList.forEach(function (robot, index) {
+            if (robot.x == cell.x && robot.y == cell.y) {
+                className += 'bg-' + colors[index-1];
+            }
+        });
+
+        // Affichage de l'arrivée
+        if ($rootScope.map.arrivalX == cell.x && $rootScope.map.arrivalY == cell.y) {
+            className += 'bg-finish';
+        }
+
         return className;
     }
 

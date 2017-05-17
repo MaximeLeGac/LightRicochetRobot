@@ -7,9 +7,9 @@ angular.module('app').run(function($rootScope) {
   $rootScope.generateMap = function() {
     return {
       size : mapSize,
-      lineList : [mapSize][mapSize],
-      arrivalX : 0,
-      arrivalY : 0,
+      lineList : [mapSize],
+      arrivalX : -1,
+      arrivalY : -1,
       robotList : [4]
     }
   }
