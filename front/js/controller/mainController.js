@@ -43,7 +43,7 @@ angular.module('app.controllers')
         while (y == index || y == index+1) {
           y = Math.floor(Math.random() * $rootScope.map.size);
         }
-        $rootScope.map.robotList.push($rootScope.robot(x, y));
+        $rootScope.map.robotList[0] = $rootScope.robot(x, y);
 
         // Lance l'initialisation de la map demandée
         if ($scope.mapIndex == 1) {

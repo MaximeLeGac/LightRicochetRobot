@@ -19,8 +19,7 @@ angular.module('app').run(function($rootScope) {
   $rootScope.robot = function(x, y) {
     return {
       x : x,
-      y : y,
-      passages : []
+      y : y
     }
   }
 
