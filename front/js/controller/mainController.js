@@ -9,7 +9,7 @@ angular.module('app.controllers')
     for (var x = 0; x < size; x++) {
         var line = [size];
         for (var y = 0; y < size; y++) {
-            line[y] = y
+            line[y] = y //$rootScope.case(x, y)
         }
         $rootScope.map[x] = line;
     }
