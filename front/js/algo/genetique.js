@@ -1,7 +1,7 @@
 angular.module('app.algo').factory('genetique', function ($rootScope) {
     var genetique = {}
 
-    /*genetique.test = function(){
+    genetique.test = function(){
     	var size = 10;
     	$rootScope.map = $rootScope.generateMap();
 	    for (var x = 0; x < size; x++) {
@@ -16,8 +16,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	        }
 	        $rootScope.map[x] = line;
 	    }
-    }*/
-    
+    }
+ 
     genetique.controlAlgo = function(carte){
     	var CONST_TAILLE_POPULATION = 10;
     	var CONST_NB_GENERATION = 5;
@@ -26,19 +26,20 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		var lesIndividus = this.init(CONST_TAILLE_POPULATION, carte)
 
 		for (var e = 0; e < CONST_NB_GENERATION; e++) {
+			console.log("generation " , e);
 		    for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
 		    	// Evaluate individual
-				lesIndividus[i].note = evaluateMovements(lesIndividus[i], carte)
+				lesIndividus[i].note = this.evaluateMovements(lesIndividus[i], carte)
 			}
 			// Select individuals
-			lucky_individuals = selectionRoulette(lesIndividus)
+			lucky_individuals = this.selectionRoulette(lesIndividus);
 
 			// Croisement / muter
 			var new_generation = []
 			for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
 				if(i % 2 == 0){
 		        	// Call to the crossbreeding who will create the next generation
-		        	croiser(lucky_individuals[i], lucky_individuals[i+1], new_generation)
+		        	this.croiser(lesIndividus[lucky_individuals[i]], lesIndividus[lucky_individuals[i+1]], new_generation)
 		    	}
 			}
 			lesIndividus = new_generation; 
@@ -54,12 +55,14 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 			}
 		}
 		// ont retourne la liste de deplacement de l'individus
-		return lesIndividus[idIndivi dusChoice].passages;
+		return lesIndividus[idIndividusChoice].passages;
     }
 
 	// Prepare tous les deplacements d'un individusCourant
     genetique.init = function(nbPopulation, carte) {
 		var lesIndividus = [];
+
+
 	    while(nbPopulation > 0){
 	        // Nombre de coup a jouer pour un individus
 	        rannbCoup = Math.floor(Math.random() * 20) + 10;
@@ -67,10 +70,11 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	        var lesCoups = [];
 	        while(rannbCoup > 0) {
 	            rannbCoup = rannbCoup - 1;
+
 	            lesCoups.push(this.gestionMovements(carte));
 	        }
-	        individusCourant.passages = lesCoups;
-	        individusCourant.note = 0;
+
+			var individusCourant = $rootScope.individu(lesCoups, 0);
 	        lesIndividus.push(individusCourant);
 	        nbPopulation = nbPopulation - 1;
 	    }
@@ -88,7 +92,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    while(stop == 0){
 	        // Si notre position reste la meme alors nous avons taper un mur et on sort de la boucle 
 	        positionCourante = this.gestionCollision([carte.robotList[0].x, carte.robotList[0].y], deplaRandom, carte)
-	        if(positionTempo != positionCourante){
+	        if(positionTempo[0] != positionCourante[0] && positionTempo[1] != positionCourante[1]){
 	            positionTempo = positionCourante;
 	        }else{
 	            stop = 1
@@ -104,8 +108,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	// return position
 	genetique.gestionCollision = function(positionIndividu, deplacement, carte){
 		// ici gerer la carte pour les collisions
-	    var tailleCarte = carte.size - 1
-	    console.log(positionIndividu);
+	    var tailleCarte = carte.size - 1;
 
 	    var posX = positionIndividu[0] + deplacement[0];
 	    var posY = positionIndividu[1] + deplacement[1];
@@ -169,10 +172,10 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    return individu;
 	}
 
+
 	// Méthode permettant de croiser les déplacements de 2 individus parents pour créer 2 individus enfants
 	genetique.croiser = function(individu_parent1, individu_parent2, nouveaux_individus) {
-
-	    // Taille du premier individu parent
+		// Taille du premier individu parent
 	    var taille_parent1 = individu_parent1.passages.length;
 	    // Taille du deuxieme individu parent
 	    var taille_parent2 = individu_parent2.passages.length;
@@ -180,9 +183,10 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    // Hauteur à laquelle on va découper les passages des parents
 	    var hauteur_croisement = Math.floor(Math.random() * taille_parent1) + 1; 
 
-	    var bebe_1 = [];
-	    var bebe_2 = [];
-
+	    var bebe_1 = $rootScope.individu();
+	    var bebe_2 = $rootScope.individu();
+		
+		
 	    // Creation of the first half of each child based on the first half of each parents
 	    for (var i = 0; i < hauteur_croisement; i++) {
 	        bebe_1.passages.push(individu_parent1.passages[i]);
@@ -205,6 +209,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    return nouveaux_individus;
 	}
 
+
 	genetique.selectionRoulette = function(population){
 	    // Génération d'un Offset maximum avec 1/4 de la totalité des notes
 	    var maxOffset = 1;
@@ -213,35 +218,36 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    for (var k = 0; k < population.length; k++) {
 	        note = population[k].note;
 
-	        if(float(note) > maxOffset){
-	            totalNote = totalNote + float(note);
+	        if(note > maxOffset){
+	            totalNote = totalNote + note;
 	        }
 
-	        maxOffset = int(Math.round(totalNote/4,0));
+	        maxOffset = Math.round(totalNote/4,0);
 	    }
 
 	    // Maintenant nous randomisons afin de créer l'offset
-	    var offset = random.randint(1, maxOffset);
+	    var offset = Math.random(1, maxOffset);
 
 	    var tempo = 0;
 	    var couple = "";
 	    var nbPop = 0;
 	    var offsetFin = 0;
-	    var taille = len(population);
+	    var taille = population.length;
+
 
 	    while (nbPop < taille) {
 
 	        for (var x = 0; x < taille; x++) {
 	            if (nbPop < taille) {
-	                note = population[k].note;
-	                tempo = tempo + float(note);
+	                note = population[x].note;
+	                tempo = tempo + note;
 
 	                if (tempo >= offset) {
 	                    if (couple != "") {
-	                        couple = couple + "_" + str(x);
+	                        couple = couple + "_" + x;
 	                        nbPop = nbPop + 1;
 	                    } else {
-	                        couple = str(x);
+	                        couple = x;
 	                        nbPop = nbPop + 1;
 	                    }
 
@@ -258,11 +264,12 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    var maSelection = couple.split("_");
 
 	    for (var i = 0; i < maSelection.length; i++) {
-	        var select = int(maSelection[i])
+	        var select = maSelection[i];
 	        couples.push(select)
 	    }
 	    return couples;
 	}
+
 
 	// Note notre individu
 	// entrée : un individu, la carte
