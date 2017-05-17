@@ -1,7 +1,7 @@
 angular.module('app.algo').factory('genetique', function ($rootScope) {
     var genetique = {}
 
-    genetique.test = function(){
+    /*genetique.test = function(){
     	var size = 10;
     	$rootScope.map = $rootScope.generateMap();
 	    for (var x = 0; x < size; x++) {
@@ -16,7 +16,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	        }
 	        $rootScope.map[x] = line;
 	    }
-    }
+    }*/
     
     genetique.controlAlgo = function(carte){
     	var CONST_TAILLE_POPULATION = 10;
@@ -54,7 +54,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 			}
 		}
 		// ont retourne la liste de deplacement de l'individus
-		return lesIndividus[idIndividusChoice].passages;
+		return lesIndividus[idIndivi dusChoice].passages;
     }
 
 	// Prepare tous les deplacements d'un individusCourant
