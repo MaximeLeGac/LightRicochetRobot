@@ -7,9 +7,9 @@ angular.module('app').run(function($rootScope) {
   $rootScope.generateMap = function() {
     return {
       size : mapSize,
-      lineList : [mapSize][mapSize],
-      arrivalX : 0,
-      arrivalY : 0,
+      lineList : [mapSize],
+      arrivalX : -1,
+      arrivalY : -1,
       robotList : [4]
     }
   }
@@ -43,7 +43,8 @@ angular.module('app').run(function($rootScope) {
   $rootScope.individu = function(passage, note) {
     return {
       passages : passages,
-      note : note
+      note : note,
+      nb_deplacements_gagnant : 0
     }
   }
 
