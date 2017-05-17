@@ -40,7 +40,7 @@ def init():
 def generateMap(index):
 
     # Initialise la map
-    map = Map()
+    map = Map
 
     # Remplit la map de cases
     fillMap(map)
