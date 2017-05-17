@@ -33,3 +33,9 @@ def controller(carte):
 		lucky_individuals = selectionRoulette(lesIndividus)
 
 		#Croisement / muter
+
+		new_generation = []
+
+	    for i in range(0, len(CONST_TAILLE_POPULATION), 2):
+	        # Call to the crossbreeding who will create the next generation
+	        croiser(lucky_individuals[i], lucky_individuals[i+1], new_generation)

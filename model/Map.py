@@ -23,7 +23,7 @@ class Map:
     def appenLine(self, line):
 
         # On ajoute pas de nouvelles lignes si la grille est pleine
-        if (line.__le__ == self.size - 1 & self.lineList.__le__ < self.size - 1):
+        if (line.__le__ == self.size - 1 and self.lineList.__le__ < self.size - 1):
             self.lineList.append(line)
     # ====================================================
 
