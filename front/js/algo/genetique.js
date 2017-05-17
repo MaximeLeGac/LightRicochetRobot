@@ -16,7 +16,6 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	        }
 	        $rootScope.map[x] = line;
 	    }
-
     }
     
     genetique.controlAlgo = function(carte){
@@ -43,6 +42,18 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 			}
 			lesIndividus = new_generation; 
 		}
+
+		// Selection de l'individus qui la plus grosse note
+		var idIndividusChoice = 0;
+		var noteMax = 0;
+		for(var u = 0; u < lesIndividus.length; u++){
+			if(lesIndividus[u].note > notemax){
+				notemax = lesIndividus[u].note;
+				idIndividusChoice = u;
+			}
+		}
+		// ont retourne la liste de deplacement de l'individus
+		return lesIndividus[idIndividusChoice].passages;
     }
 
 	// Prepare tous les deplacements d'un individusCourant
