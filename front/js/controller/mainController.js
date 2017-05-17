@@ -49,16 +49,123 @@ angular.module('app.controllers')
         if ($scope.mapIndex == 1) {
             initMap1($rootScope.map);
         }
-        else if (scope.mapIndex == 2) {
+        else if ($scope.mapIndex == 2) {
             initMap2(m$rootScope.mapap);
         }
-        else if (scope.mapIndex == 3) {
+        else if ($scope.mapIndex == 3) {
             initMap3($rootScope.map);
         }
+
+        // Appel l'algo avec la map
+        //var moveList = genetique.controlAlgo($rootScope.map);
     }
 
     // Initialise la map 1
     function initMap1(map) {
+        map.lineList[0][1].murB = true
+
+        map.lineList[1][0].murD = true
+        map.lineList[1][1].murG = true
+        map.lineList[1][1].murH = true
+        map.lineList[1][4].murD = true
+        map.lineList[1][5].murG = true
+        map.lineList[1][5].murB = true
+
+        map.lineList[2][3].murD = true
+        map.lineList[2][3].murB = true
+        map.lineList[2][4].murG = true
+        map.lineList[2][4].murB = true
+        map.lineList[2][7].murB = true
+
+        map.lineList[3][1].murB = true
+        map.lineList[3][2].murD = true
+        map.lineList[3][3].murG = true
+        map.lineList[3][3].murH = true
+        map.lineList[3][4].murD = true
+        map.lineList[3][4].murH = true
+        map.lineList[3][5].murG = true
+        map.lineList[3][7].murH = true
+
+        map.lineList[4][1].murH = true
+        map.lineList[4][2].murD = true
+        map.lineList[4][3].murG = true
+        map.lineList[4][3].murB = true
+        map.lineList[4][4].murD = true
+        map.lineList[4][4].murB = true
+        map.lineList[4][5].murG = true
+        map.lineList[4][5].murB = true
+
+        map.lineList[5][0].murD = true
+        map.lineList[5][1].murG = true
+        map.lineList[5][3].murH = true
+        map.lineList[5][4].murH = true
+        map.lineList[5][5].murH = true
+
+        map.lineList[6][2].murD = true
+        map.lineList[6][3].murG = true
+        map.lineList[6][6].murD = true
+        map.lineList[6][7].murG = true
+        map.lineList[6][7].murB = true
+
+        map.lineList[7][3].murD = true
+        map.lineList[7][4].murG = true
+        map.lineList[7][7].murH = true
+    }
+
+    // Initialise la map 2
+    function initMap2(map) {
+        map.lineList[0][1].murB = true
+
+        map.lineList[1][0].murD = true
+        map.lineList[1][1].murG = true
+        map.lineList[1][1].murH = true
+        map.lineList[1][4].murD = true
+        map.lineList[1][5].murG = true
+        map.lineList[1][5].murB = true
+
+        map.lineList[2][3].murD = true
+        map.lineList[2][3].murB = true
+        map.lineList[2][4].murG = true
+        map.lineList[2][4].murB = true
+        map.lineList[2][7].murB = true
+
+        map.lineList[3][1].murB = true
+        map.lineList[3][2].murD = true
+        map.lineList[3][3].murG = true
+        map.lineList[3][3].murH = true
+        map.lineList[3][4].murD = true
+        map.lineList[3][4].murH = true
+        map.lineList[3][5].murG = true
+        map.lineList[3][7].murH = true
+
+        map.lineList[4][1].murH = true
+        map.lineList[4][2].murD = true
+        map.lineList[4][3].murG = true
+        map.lineList[4][3].murB = true
+        map.lineList[4][4].murD = true
+        map.lineList[4][4].murB = true
+        map.lineList[4][5].murG = true
+        map.lineList[4][5].murB = true
+
+        map.lineList[5][0].murD = true
+        map.lineList[5][1].murG = true
+        map.lineList[5][3].murH = true
+        map.lineList[5][4].murH = true
+        map.lineList[5][5].murH = true
+
+        map.lineList[6][2].murD = true
+        map.lineList[6][3].murG = true
+        map.lineList[6][6].murD = true
+        map.lineList[6][7].murG = true
+        map.lineList[6][7].murB = true
+
+        map.lineList[7][3].murD = true
+        map.lineList[7][4].murG = true
+        map.lineList[7][7].murH = true
+    }
+
+    // Initialise la map 3
+    function initMap3(map) {
         map.lineList[0][1].murB = true
 
         map.lineList[1][0].murD = true
