@@ -272,7 +272,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
 	    // Ici le nombre de coup est multiplier a la note
 	    var nbCoups = individu.passages.length;
-	    var nbCoupsGagnant = individu.nb_deplacements_gagnant;
+
+	    var nbCoupsGagnant = this.checkThisWin(individu, carte);
 
 	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
 	    if (nbCoupsGagnant > 0) note *= nbCoupsGagnant;
@@ -303,6 +304,33 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    note = (1 / note) * 100;
 
 	    return note;
+	}
+
+	genetique.checkThisWin = function(individu, carte) {
+		var nb_coups_gagnant = 0;
+		// coordonnées de départ du robot
+		var posX = carte.robotList[0].x;
+		var posY = carte.robotList[0].y;
+		// coordonnées du point d'arrivée 
+		var finalX = carte.arrivalX;
+		var finalY = carte.arrivalY;
+		// Compteur des déplacements
+		var cpt = 0;
+
+		while (nb_coups_gagnant == 0 || cpt == individu.passages.length) {
+			// Appel à la méthode gestionCollision qui va nous renvoyer la position du robot après déplacement
+			posX = this.gestionCollision(posX, individu.passages[i].x, carte);
+			posY = this.gestionCollision(posX, individu.passages[i].y, carte);
+
+			// On incrémente le compteur de coups
+			cpt++;
+
+			// Si l'on se trouve sur la case d'arrivée
+			if (posX == finalX && posY == finalY) nb_coups_gagnant += cpt;
+
+		}
+
+		return nb_coups_gagnant;
 	}
 
     return genetique;

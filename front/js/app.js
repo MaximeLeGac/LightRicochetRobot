@@ -42,8 +42,7 @@ angular.module('app').run(function($rootScope) {
   $rootScope.individu = function(passage, note) {
     return {
       passages : passages,
-      note : note,
-      nb_deplacements_gagnant : 0
+      note : note
     }
   }
 
