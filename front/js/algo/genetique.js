@@ -35,7 +35,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 			lucky_individuals = this.selectionRoulette(lesIndividus);
 
 			// Croisement / muter
-			var new_generation = []
+
+			var new_generation = [];
 			for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
 				if(i % 2 == 0){
 		        	// Call to the crossbreeding who will create the next generation
@@ -49,8 +50,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		var idIndividusChoice = 0;
 		var noteMax = 0;
 		for(var u = 0; u < lesIndividus.length; u++){
-			if(lesIndividus[u].note > notemax){
-				notemax = lesIndividus[u].note;
+			if(lesIndividus[u].note > noteMax){
+				noteMax = lesIndividus[u].note;
 				idIndividusChoice = u;
 			}
 		}
@@ -98,7 +99,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	            stop = 1
 	        }
 	    }
-	    return deplaRandom
+	    return deplaRandom;
     }
 
 	// Verifie si mur sur notre deplacement
@@ -165,9 +166,9 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    var taux_mutation = Math.floor(Math.random() * 100);
 	    if (0 <= taux_mutation && taux_mutation <= 5) {
 	        index_random_deplacement = Math.floor(Math.random() * 3); // Nombre random pour choisir un déplacement parmi les 4 possibles
-	        index_random_individu = Math.floor(Math.random() * individu.passages.length); // Nombre random pour choisir le déplacement qui sera remplacé chez l'individu
+	    	index_random_individu = Math.floor(Math.random() * individu.passages.length); // Nombre random pour choisir le déplacement qui sera remplacé chez l'individu
 
-	        individu.passages[index_random_individu] = tab_deplacements[index_random_deplacement] ;
+	        individu.passages[index_random_individu] = tab_deplacements[index_random_deplacement];
 	    }
 	    return individu;
 	}
@@ -181,10 +182,17 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    var taille_parent2 = individu_parent2.passages.length;
 
 	    // Hauteur à laquelle on va découper les passages des parents
-	    var hauteur_croisement = Math.floor(Math.random() * taille_parent1) + 1; 
 
-	    var bebe_1 = $rootScope.individu();
-	    var bebe_2 = $rootScope.individu();
+	    if(taille_parent1 < taille_parent2){
+	    	var hauteur_croisement = Math.floor(Math.random() * taille_parent1) + 1; 
+	    }else{
+	    	var hauteur_croisement = Math.floor(Math.random() * taille_parent2) + 1; 
+	    }
+
+	    
+
+	    var bebe_1 = $rootScope.individu([],0);
+	    var bebe_2 = $rootScope.individu([],0);
 		
 		
 	    // Creation of the first half of each child based on the first half of each parents
@@ -200,11 +208,21 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	        bebe_2.passages.push(individu_parent1.passages[i]);
 	    }
 	    // Call to the mutation function on each child
-	    muter(bebe_1);
-	    muter(bebe_2);
+	    this.muter(bebe_1);
+	    this.muter(bebe_2);
 
 	    nouveaux_individus.push(bebe_1);
 	    nouveaux_individus.push(bebe_2);
+
+	    /*console.log("bebe")
+	    console.log(bebe_1.passages);
+	    console.log(bebe_2.passages);
+
+	    console.log("         ");
+	    console.log(hauteur_croisement);
+	    console.log("         ");
+	    console.log(individu_parent1.passages);
+	    console.log(individu_parent2.passages);*/
 
 	    return nouveaux_individus;
 	}
@@ -234,10 +252,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    var offsetFin = 0;
 	    var taille = population.length;
 
-
 	    while (nbPop < taille) {
-
-	        for (var x = 0; x < taille; x++) {
+	    	for (var x = 0; x < taille; x++) {
 	            if (nbPop < taille) {
 	                note = population[x].note;
 	                tempo = tempo + note;
@@ -246,9 +262,11 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	                    if (couple != "") {
 	                        couple = couple + "_" + x;
 	                        nbPop = nbPop + 1;
+	        
 	                    } else {
-	                        couple = x;
+	                        couple = x.toString();
 	                        nbPop = nbPop + 1;
+	        
 	                    }
 
 	                    offset = offset + offset;
@@ -260,14 +278,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	            }
 	    	}
 	    }
-	    var couples = [];
 	    var maSelection = couple.split("_");
-
-	    for (var i = 0; i < maSelection.length; i++) {
-	        var select = maSelection[i];
-	        couples.push(select)
-	    }
-	    return couples;
+	    return maSelection;
 	}
 
 
@@ -324,16 +336,24 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		// Compteur des déplacements
 		var cpt = 0;
 
-		while (nb_coups_gagnant == 0 || cpt == individu.passages.length) {
+
+		//console.log(individu.passages);
+		while (nb_coups_gagnant == 0 && cpt < individu.passages.length) {
 			// Appel à la méthode gestionCollision qui va nous renvoyer la position du robot après déplacement
-			posX = this.gestionCollision(posX, individu.passages[i].x, carte);
-			posY = this.gestionCollision(posX, individu.passages[i].y, carte);
+			
+			/*
+			console.log(cpt);
+			console.log(individu.passages.length);
+			console.log(individu.passages[cpt]);
+			*/
+			
+			posCourante = this.gestionCollision([posX, posY], individu.passages[cpt], carte);
 
 			// On incrémente le compteur de coups
 			cpt++;
 
 			// Si l'on se trouve sur la case d'arrivée
-			if (posX == finalX && posY == finalY) nb_coups_gagnant += cpt;
+			if (posCourante[0] == finalX && posCourante[1] == finalY) nb_coups_gagnant += cpt;
 
 		}
 
