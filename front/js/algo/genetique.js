@@ -1,6 +1,8 @@
 angular.module('app.algo').factory('genetique', function ($rootScope) {
     var genetique = {}
 
+
+
     genetique.controlAlgo = function(carte){
 
 		//Init de la pop
