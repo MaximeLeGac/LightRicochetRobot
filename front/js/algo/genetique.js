@@ -3,6 +3,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
  
     genetique.controlAlgo = function(carte){
+
     	var CONST_TAILLE_POPULATION = 10;
     	var CONST_NB_GENERATION = 10;
 
@@ -349,12 +350,13 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		        } else {
 		            stop = 1;
 		        }
+
+				posX = positionCourante[0];
+				posY = positionCourante[1];
 		    }
 
 			// On incrémente le compteur de coups
 			cpt++;
-			posX = positionCourante[0];
-			posY = positionCourante[1];
 
 			// Si l'on se trouve sur la case d'arrivée
 			if (positionCourante[0] == finalX && positionCourante[1] == finalY) nb_coups_gagnant += cpt;
