@@ -3,8 +3,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
  
     genetique.controlAlgo = function(carte){
-    	var CONST_TAILLE_POPULATION = 2;
-    	var CONST_NB_GENERATION = 1;
+    	var CONST_TAILLE_POPULATION = 10;
+    	var CONST_NB_GENERATION = 10;
 
 		//Init de la population d'individus
 		var lesIndividus = this.init(CONST_TAILLE_POPULATION, carte);
@@ -13,8 +13,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 			console.log("generation " , e);
 		    for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
 		    	// Evaluate individual
-				lesIndividus[i].note = this.evaluateMovements(lesIndividus[i], carte)
-				//console.log(lesIndividus[i].note);
+				lesIndividus[i].note = this.evaluateMovements(lesIndividus[i], carte);
 			}
 			// Select individuals
 			lucky_individuals = this.selectionRoulette(lesIndividus);
@@ -35,7 +34,6 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		var idIndividusChoice = 0;
 		var noteMax = 0;
 		for(var u = 0; u < lesIndividus.length; u++){
-			//console.log(lesIndividus[u].note);
 			if(lesIndividus[u].note > noteMax){
 				noteMax = lesIndividus[u].note;
 				idIndividusChoice = u;
