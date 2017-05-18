@@ -22,8 +22,10 @@ angular.module('app.controllers')
     // Gère la lancement d'une partie
     $scope.start = function() {
 
-        // Définit la case d'arrivée        
-        $rootScope.map.arrivalX = Math.floor(Math.random() * $rootScope.map.size);
+        // Définit la case d'arrivée
+        $rootScope.map.arrivalX = 2;
+        $rootScope.map.arrivalY = 7;
+        /*$rootScope.map.arrivalX = Math.floor(Math.random() * $rootScope.map.size);
         $rootScope.map.arrivalY = Math.floor(Math.random() * $rootScope.map.size);
         var index = (($rootScope.map.size-2)/2);
         while ($rootScope.map.arrivalX == index || $rootScope.map.arrivalX == index+1) {
@@ -31,10 +33,10 @@ angular.module('app.controllers')
         }
         while ($rootScope.map.arrivalY == index || $rootScope.map.arrivalY == index+1) {
           $rootScope.map.arrivalY = Math.floor(Math.random() * $rootScope.map.size);
-        }
+        }*/
 
         // Définit la case de départ du robot
-        var x = Math.floor(Math.random() * $rootScope.map.size);
+        /*var x = Math.floor(Math.random() * $rootScope.map.size);
         var y = Math.floor(Math.random() * $rootScope.map.size);
         var index = (($rootScope.map.size-2)/2);
         while (x == index || x == index+1) {
@@ -43,7 +45,8 @@ angular.module('app.controllers')
         while (y == index || y == index+1) {
           y = Math.floor(Math.random() * $rootScope.map.size);
         }
-        $rootScope.map.robotList[0] = $rootScope.robot(x, y);
+        $rootScope.map.robotList[0] = $rootScope.robot(x, y);*/
+        $rootScope.map.robotList[0] = $rootScope.robot(4, 7);
 
         // Lance l'initialisation de la map demandée
         if ($scope.mapIndex == 1) {
@@ -57,7 +60,8 @@ angular.module('app.controllers')
         }
 
         // Appel l'algo avec la map
-        var moveList = genetique.controlAlgo($rootScope.map);
+        //var moveList = genetique.controlAlgo($rootScope.map);
+        handleMove($rootScope.map, [[0, -1], [-1, 0], [0, -1], [1, 0]]);
     }
 
     // Initialise la map 1
@@ -240,7 +244,7 @@ angular.module('app.controllers')
         // Affichage des robots
         $rootScope.map.robotList.forEach(function (robot, index) {
             if (robot.x == cell.x && robot.y == cell.y) {
-                className += 'bg-' + colors[index-1];
+                className += 'bg-' + colors[index];
             }
         });
 
@@ -250,6 +254,12 @@ angular.module('app.controllers')
         }
 
         return className;
+    }
+
+    function handleMove(map, moveList) {
+        moveList.forEach(function(move) {
+
+        });
     }
 
 });
