@@ -7,7 +7,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
     	var CONST_NB_GENERATION = 500;
 
 		//Init de la population d'individus
-		var lesIndividus = this.init(CONST_TAILLE_POPULATION, carte)
+		var lesIndividus = this.init(CONST_TAILLE_POPULATION, carte);
 
 		for (var e = 0; e < CONST_NB_GENERATION; e++) {
 			console.log("generation " , e);
@@ -77,7 +77,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    var positionTempo = [];
 	    var positionCourante = []; //Position du individu x, y
 	    var stop = 0;
-	    // Tant que nos position son différente nous continuons a avancer (pour faire la ligne complete)
+	    // Tant que nos position sont différentes nous continuons a avancer (pour faire la ligne complete)
 	    while(stop == 0){
 	        // Si notre position reste la meme alors nous avons taper un mur et on sort de la boucle 
 	        positionCourante = this.gestionCollision([carte.robotList[0].x, carte.robotList[0].y], deplaRandom, carte)
@@ -336,16 +336,29 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
 		while (nb_coups_gagnant == 0 && cpt < individu.passages.length) {
 			// Appel à la méthode gestionCollision qui va nous renvoyer la position du robot après déplacement
+			var stop = 0;
+		    var positionTempo = [];
+		    var positionCourante = [];
 
-			posCourante = this.gestionCollision([posX, posY], individu.passages[cpt], carte);
+			// Tant que nos position sont différentes nous continuons a avancer (pour faire la ligne complete)
+		    while (stop == 0) {
+		        // Si notre position reste la meme alors nous avons taper un mur et on sort de la boucle 
+		        positionCourante = this.gestionCollision([posX, posY], individu.passages[cpt], carte);
+
+		        if (positionTempo[0] != positionCourante[0] && positionTempo[1] != positionCourante[1]) {
+		            positionTempo = positionCourante;
+		        } else {
+		            stop = 1
+		        }
+		    }
 
 			// On incrémente le compteur de coups
 			cpt++;
-			posX = posCourante[0];
-			posY = posCourante[1];
+			posX = positionCourante[0];
+			posY = positionCourante[1];
 
 			// Si l'on se trouve sur la case d'arrivée
-			if (posCourante[0] == finalX && posCourante[1] == finalY) nb_coups_gagnant += cpt;
+			if (positionCourante[0] == finalX && positionCourante[1] == finalY) nb_coups_gagnant += cpt;
 
 		}
 
