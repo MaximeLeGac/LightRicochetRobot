@@ -3,7 +3,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
  
     genetique.controlAlgo = function(carte){
-    	var CONST_TAILLE_POPULATION = 20;
+    	var CONST_TAILLE_POPULATION = 500;
     	var CONST_NB_GENERATION = 500;
 
 		//Init de la population d'individus
@@ -269,15 +269,6 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
 	    // Ici le nombre de coup est multiplier a la note
 	    var nbCoups = individu.passages.length;
-
-	    var nbCoupsGagnant = this.checkThisWin(individu, carte);
-	    
-	    if(nbCoupsGagnant > 0){
-	    	console.log("                    win                      ", nbCoupsGagnant);
-	    }
-	    
-	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
-	    if (nbCoupsGagnant > 0) note *= (nbCoupsGagnant*100);
 
 	    // On regarde la distance de la dernière position de notre individu
 	    // et on la compare à la position du point final
