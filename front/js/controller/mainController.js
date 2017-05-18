@@ -60,8 +60,8 @@ angular.module('app.controllers')
         }
 
         // Appel l'algo avec la map
-        //var moveList = genetique.controlAlgo($rootScope.map);
-        handleMove($rootScope.map, [[0, -1], [-1, 0], [0, -1], [1, 0]]);
+        var moveList = genetique.controlAlgo($rootScope.map);
+        //handleMove($rootScope.map, [[0, -1], [-1, 0], [0, -1], [1, 0]]);
     }
 
     // Initialise la map 1

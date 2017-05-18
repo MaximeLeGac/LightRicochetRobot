@@ -13,7 +13,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 			console.log("generation " , e);
 		    for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
 		    	// Evaluate individual
-				lesIndividus[i].note = this.evaluateMovements(lesIndividus[i], carte)
+				lesIndividus[i].note = this.evaluateMovements(lesIndividus[i], carte);
 				console.log(lesIndividus[i].note);
 			}
 			// Select individuals
@@ -271,11 +271,9 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    var nbCoups = individu.passages.length;
 
 	    var nbCoupsGagnant = this.checkThisWin(individu, carte);
-	    if(nbCoupsGagnant > 0){
-	    	console.log("                    win                      ", nbCoupsGagnant);
-	    }
+	    
 	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
-	    if (nbCoupsGagnant > 0) note *= nbCoupsGagnant;
+	    if (nbCoupsGagnant > 0) note *= nbCoupsGagnant*100;
 
 	    var lastPositionIndividus = individu.passages[nbCoups-1];
 	    var xDiff = lastPositionIndividus[0] - carte.arrivalX;

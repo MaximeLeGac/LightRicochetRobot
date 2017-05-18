@@ -39,7 +39,7 @@ angular.module('app').run(function($rootScope) {
 
   // Classe Individu
   // Représente un individu qui sera utilisé lors de l'exécution de l'algorithme génétique
-  $rootScope.individu = function(passages, note) {
+  $rootScope.individu = function(passages, note, xFinal, yFinal) {
     return {
       passages : passages,
       note : note
