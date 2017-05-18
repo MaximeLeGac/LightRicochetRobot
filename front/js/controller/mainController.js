@@ -10,10 +10,10 @@ angular.module('app.controllers')
         $('.bg-finish').removeClass('bg-finish');
         $('.bg-blue').removeClass('bg-blue');
         
-        // Initialisation de la map
+        // Regénère la map en cas de lancement d'un nouvelle partie
         $rootScope.map = $rootScope.generateMap();
 
-        // Lance l'initialisation de la map demandée
+        // Initialisation de la map avec choix random
         var mapIndex = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
         if (mapIndex == 1) {
             initMap1($rootScope.map);
@@ -28,6 +28,9 @@ angular.module('app.controllers')
         // Définit la case d'arrivée
         $rootScope.map.arrivalX = Math.floor(Math.random() * $rootScope.map.size);
         $rootScope.map.arrivalY = Math.floor(Math.random() * $rootScope.map.size);
+
+        // Vérification que les coordonnées d'arrivée ne tombent pas dans le carré central
+        // sinon on définit une nouvelle arrivée
         var index = (($rootScope.map.size-2)/2);
         while ($rootScope.map.arrivalX == index || $rootScope.map.arrivalX == index+1) {
           $rootScope.map.arrivalX = Math.floor(Math.random() * $rootScope.map.size);
@@ -35,6 +38,8 @@ angular.module('app.controllers')
         while ($rootScope.map.arrivalY == index || $rootScope.map.arrivalY == index+1) {
           $rootScope.map.arrivalY = Math.floor(Math.random() * $rootScope.map.size);
         }
+
+        // Vérification que l'arrivée est bien à côté d'un mur
         while ($rootScope.map.lineList[$rootScope.map.arrivalX][$rootScope.map.arrivalY].hasNoWall()) {
             $rootScope.map.arrivalX = Math.floor(Math.random() * $rootScope.map.size);
             $rootScope.map.arrivalY = Math.floor(Math.random() * $rootScope.map.size);
@@ -50,6 +55,8 @@ angular.module('app.controllers')
         // Définit la case de départ du robot
         var x = Math.floor(Math.random() * $rootScope.map.size);
         var y = Math.floor(Math.random() * $rootScope.map.size);
+
+        // Vérification que le robot ne commence pas dans le carré central
         var index = (($rootScope.map.size-2)/2);
         while (x == index || x == index+1) {
           x = Math.floor(Math.random() * $rootScope.map.size);
