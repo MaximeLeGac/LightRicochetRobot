@@ -3,8 +3,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
  
     genetique.controlAlgo = function(carte){
-    	var CONST_TAILLE_POPULATION = 10;
-    	var CONST_NB_GENERATION = 5;
+    	var CONST_TAILLE_POPULATION = 20;
+    	var CONST_NB_GENERATION = 500;
 
 		//Init de la population d'individus
 		var lesIndividus = this.init(CONST_TAILLE_POPULATION, carte)
@@ -13,8 +13,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 			console.log("generation " , e);
 		    for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
 		    	// Evaluate individual
-				lesIndividus[i].note = this.evaluateMovements(lesIndividus[i], carte);
-				console.log(lesIndividus[i].note);
+				lesIndividus[i].note = this.evaluateMovements(lesIndividus[i], carte)
+				//console.log(lesIndividus[i].note);
 			}
 			// Select individuals
 			lucky_individuals = this.selectionRoulette(lesIndividus);
@@ -269,16 +269,37 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
 	    // Ici le nombre de coup est multiplier a la note
 	    var nbCoups = individu.passages.length;
-	    var lastPositionIndividus = individu.passages[nbCoups-1];
-	    var xDiff = lastPositionIndividus[0] - carte.arrivalX;
-	    var yDiff = lastPositionIndividus[1] - carte.arrivalY;
 
-	    if(yDiff < 0) yDiff *= (-1);
+	    var nbCoupsGagnant = this.checkThisWin(individu, carte);
+	    
+	    if(nbCoupsGagnant > 0){
+	    	console.log("                    win                      ", nbCoupsGagnant);
+	    }
+	    
+	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
+	    if (nbCoupsGagnant > 0) note *= (nbCoupsGagnant*100);
+
+	    // On regarde la distance de la dernière position de notre individu
+	    // et on la compare à la position du point final
+	    var lastPositionX = carte.robotList[0].x;
+	    var lastPositionY = carte.robotList[0].y;
+	    var posCourante = [];
+	    
+	    for (var i=0; i < individu.passages.length; i++) {
+			posCourante = this.gestionCollision([lastPositionX, lastPositionY], individu.passages[i], carte);
+
+	    	lastPositionX = posCourante[0];
+			lastPositionY = posCourante[1];
+	    }
+    	var xDiff = posCourante[0] - carte.arrivalX;
+	    var yDiff = posCourante[1] - carte.arrivalY;
+
 	    if(xDiff < 0) xDiff *= (-1);
+	    if(yDiff < 0) yDiff *= (-1);
 
 	   	//La distance entre le dernier coup jouer et l'arrive est multiplier pour x et y
-	    note *= yDiff;
 	    note *= xDiff;
+	    note *= yDiff;
 
 	    var nbAllerRetour = 0;
 	    var deplacementPrecedent = 0;
@@ -316,15 +337,15 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		// Compteur des déplacements
 		var cpt = 0;
 
-
 		while (nb_coups_gagnant == 0 && cpt < individu.passages.length) {
 			// Appel à la méthode gestionCollision qui va nous renvoyer la position du robot après déplacement
-			
-			
+
 			posCourante = this.gestionCollision([posX, posY], individu.passages[cpt], carte);
 
 			// On incrémente le compteur de coups
 			cpt++;
+			posX = posCourante[0];
+			posY = posCourante[1];
 
 			// Si l'on se trouve sur la case d'arrivée
 			if (posCourante[0] == finalX && posCourante[1] == finalY) nb_coups_gagnant += cpt;
