@@ -276,7 +276,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    	console.log("                    win                      ", nbCoupsGagnant);
 	    }
 	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
-	    if (nbCoupsGagnant > 0) note *= nbCoupsGagnant;
+	    if (nbCoupsGagnant > 0) note *= nbCoupsGagnant*100;
 
 	    // On regarde la distance de la dernière position de notre individu
 	    // et on la compare à la position du point final
