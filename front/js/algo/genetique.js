@@ -4,31 +4,35 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
  
     genetique.controlAlgo = function(carte){
 
-    	var CONST_TAILLE_POPULATION = 10;
-    	var CONST_NB_GENERATION = 10;
+    	var CONST_TAILLE_POPULATION = 20;
+    	var CONST_NB_GENERATION = 100;
 
 		//Init de la population d'individus
 		var lesIndividus = this.init(CONST_TAILLE_POPULATION, carte);
 
 		for (var e = 0; e < CONST_NB_GENERATION; e++) {
-			console.log("generation " , e);
+			console.log("======================================================================");
+			console.log("Generation " , e);
 		    for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
 		    	// Evaluate individual
 				lesIndividus[i].note = this.evaluateMovements(lesIndividus[i], carte);
 			}
-			// Select individuals
-			lucky_individuals = this.selectionRoulette(lesIndividus);
+			if (e !== CONST_NB_GENERATION-1) {
+				// Select individuals
+				lucky_individuals = this.selectionRoulette(lesIndividus);
 
-			// Croisement / muter
+				// Croisement / muter
 
-			var new_generation = [];
-			for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
-				if(i % 2 == 0){
-		        	// Call to the crossbreeding who will create the next generation
-		        	this.croiser(lesIndividus[lucky_individuals[i]], lesIndividus[lucky_individuals[i+1]], new_generation)
-		    	}
+				var new_generation = [];
+				for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
+					if(i % 2 == 0){
+			        	// Call to the crossbreeding who will create the next generation
+			        	this.croiser(lesIndividus[lucky_individuals[i]], lesIndividus[lucky_individuals[i+1]], new_generation)
+			    	}
+				}
+				lesIndividus = new_generation; 
+
 			}
-			lesIndividus = new_generation; 
 		}
 
 		// Selection de l'individus qui la plus grosse note
@@ -42,6 +46,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		}
 
 		console.log(lesIndividus[idIndividusChoice].passages);
+		console.log(lesIndividus[idIndividusChoice].note);
 		// ont retourne la liste de deplacement du meilleurs individus
 		return lesIndividus[idIndividusChoice].passages;
     }
@@ -275,7 +280,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    var lastPositionX = carte.robotList[0].x;
 	    var lastPositionY = carte.robotList[0].y;
 	    var posCourante = [];
-	    
+/*	    
 	    for (var i=0; i < individu.passages.length; i++) {
 			posCourante = this.gestionCollision([lastPositionX, lastPositionY], individu.passages[i], carte);
 
@@ -291,7 +296,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	   	//La distance entre le dernier coup jouer et l'arrive est multiplier pour x et y
 	    note *= xDiff;
 	    note *= yDiff;
-
+*/
 	    var nbAllerRetour = 0;
 	    var nbAllerAller = 0;
 	    
@@ -318,7 +323,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    var nbCoupsGagnant = this.checkThisWin(individu, carte);
 	    
 	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
-	    if (nbCoupsGagnant > 0) note *= (nbCoupsGagnant*100);
+	    if (nbCoupsGagnant > 0) note *= ((100-nbCoupsGagnant)*100);
 
 	    if (nbCoupsGagnant > 0) console.log("Note : ", note);
 
