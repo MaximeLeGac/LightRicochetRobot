@@ -14,6 +14,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		    for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
 		    	// Evaluate individual
 				lesIndividus[i].note = this.evaluateMovements(lesIndividus[i], carte)
+				console.log(lesIndividus[i].note);
 			}
 			// Select individuals
 			lucky_individuals = this.selectionRoulette(lesIndividus);
@@ -34,11 +35,14 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		var idIndividusChoice = 0;
 		var noteMax = 0;
 		for(var u = 0; u < lesIndividus.length; u++){
+			//console.log(lesIndividus[u].note);
 			if(lesIndividus[u].note > noteMax){
 				noteMax = lesIndividus[u].note;
 				idIndividusChoice = u;
 			}
 		}
+
+		console.log(lesIndividus[idIndividusChoice].passages);
 		// ont retourne la liste de deplacement du meilleurs individus
 		return lesIndividus[idIndividusChoice].passages;
     }
@@ -267,7 +271,9 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    var nbCoups = individu.passages.length;
 
 	    var nbCoupsGagnant = this.checkThisWin(individu, carte);
-
+	    if(nbCoupsGagnant > 0){
+	    	console.log("                    win                      ", nbCoupsGagnant);
+	    }
 	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
 	    if (nbCoupsGagnant > 0) note *= nbCoupsGagnant;
 
@@ -282,20 +288,25 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	        xDiff = xDiff * (-1);
 	    }
 
-	    // Verifier si un mur sur la route du dernier coup (si mur alors augmentation de la note)
-	    // Verifier si un mur sur la route du dernier coup (si mur alors augmentation de la note)
-	    // Verifier si un mur sur la route du dernier coup (si mur alors augmentation de la note)
-	    // Verifier si un mur sur la route du dernier coup (si mur alors augmentation de la note)
-
-
-
-
-	    //La distance entre le dernier coup jouer et l'arrive est multiplier pour x et y
+	   	//La distance entre le dernier coup jouer et l'arrive est multiplier pour x et y
 	    note *= yDiff;
 	    note *= xDiff;
 
-	    note = (1 / note) * 100;
 
+
+	    var nbAllerRetour = 0;
+	    var deplacementPrecedent = 0;
+	    // Favorisation de l'exploration 
+	    for(var i = 0; i < individu.passages.length; i++){
+	    	if(individu.passages[i] == deplacementPrecedent){
+	    		nbAllerRetour = nbAllerRetour + 1;
+	    	}
+	    	deplacementPrecedent = individu.passages[i];
+	    }
+
+	    note = note + nbAllerRetour*100;
+
+	    note = (1 / note) * 100;
 	    return note;
 	}
 
