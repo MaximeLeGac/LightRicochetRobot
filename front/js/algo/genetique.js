@@ -269,12 +269,6 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
 	    // Ici le nombre de coup est multiplier a la note
 	    var nbCoups = individu.passages.length;
-
-	    var nbCoupsGagnant = this.checkThisWin(individu, carte);
-	    
-	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
-	    if (nbCoupsGagnant > 0) note *= (nbCoupsGagnant*100);
-
 	    var lastPositionIndividus = individu.passages[nbCoups-1];
 	    var xDiff = lastPositionIndividus[0] - carte.arrivalX;
 	    var yDiff = lastPositionIndividus[1] - carte.arrivalY;
@@ -296,9 +290,18 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    	deplacementPrecedent = individu.passages[i];
 	    }
 
-	    note = note + nbAllerRetour*100;
+	    note = note + (nbAllerRetour*100);
 
+
+
+
+	    // on inverse la note
 	    note = (1 / note) * 100;
+	    var nbCoupsGagnant = this.checkThisWin(individu, carte);
+	    
+	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
+	    if (nbCoupsGagnant > 0) note *= (nbCoupsGagnant*100);
+
 	    return note;
 	}
 
