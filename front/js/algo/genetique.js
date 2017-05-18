@@ -156,7 +156,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    // mais dans le futur, mutation rate qui évolue en fonction du taux de réussite des individus (si taux stagne, augmentation du mutation rate)
 	    var tab_deplacements = [[0, 1], [0, -1], [1, 0], [-1, 0]];
 	    var taux_mutation = Math.floor(Math.random() * 100);
-	    if (0 <= taux_mutation && taux_mutation <= 5) {
+	    if (0 <= taux_mutation && taux_mutation <= 1) {
 	        index_random_deplacement = Math.floor(Math.random() * 3); // Nombre random pour choisir un déplacement parmi les 4 possibles
 	    	index_random_individu = Math.floor(Math.random() * individu.passages.length); // Nombre random pour choisir le déplacement qui sera remplacé chez l'individu
 
@@ -320,6 +320,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
 	    if (nbCoupsGagnant > 0) note *= (nbCoupsGagnant*100);
 
+	    if (nbCoupsGagnant > 0) console.log("Note : ", note);
+
 	    return note;
 	}
 
@@ -363,7 +365,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
 		}
 
-		if (nb_coups_gagnant > 0) console.log("--------------> DAT WIN MAGUEULE : ", nb_coups_gagnant);
+		if (nb_coups_gagnant > 0) console.log("--------------> Case finale atteinte en : ", nb_coups_gagnant, " coups.");
 
 		return nb_coups_gagnant;
 	}
