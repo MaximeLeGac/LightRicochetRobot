@@ -5,13 +5,26 @@ angular.module('app').run(function($rootScope) {
   // Classe Map
   // Represente une carte
   $rootScope.generateMap = function() {
-    return {
+    var map = {
       size : mapSize,
       lineList : [mapSize],
       arrivalX : -1,
       arrivalY : -1,
       robotList : [4]
     }
+    for (var x = 0; x < map.size; x++) {
+        var line = [map.size];
+        for (var y = 0; y < map.size; y++) {
+            var cell = $rootScope.case(x, y)
+            cell.murH = (x == 0);
+            cell.murB = (x == map.size-1);
+            cell.murG = (y == 0);
+            cell.murD = (y == map.size-1);
+            line[y] = cell;
+        }
+        map.lineList[x] = line;
+    }
+    return map;
   }
 
   // Classe Robot
@@ -33,7 +46,10 @@ angular.module('app').run(function($rootScope) {
       murH : false,
       murB : false,
       murG : false,
-      murD : false
+      murD : false,
+      hasNoWall : function () {
+        return !this.murH && !this.murB && !this.murG && !this.murD;
+      }
     }
   }
 

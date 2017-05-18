@@ -18,16 +18,16 @@ td {
 
 
 .bg-blue {
-    background-color: lightblue !important;
+    background-color: lightblue;
 }
 .bg-yellow {
-    background-color: yellow !important;
+    background-color: yellow;
 }
 .bg-green {
-    background-color: lightgreen !important;
+    background-color: lightgreen;
 }
 .bg-red {
-    background-color: red !important;
+    background-color: red;
 }
 .bg-finish {
     background-color: gray;

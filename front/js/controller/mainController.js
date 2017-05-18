@@ -4,37 +4,25 @@ angular.module('app.controllers')
         
     // Initialisation de la map
     $rootScope.map = $rootScope.generateMap();
-    for (var x = 0; x < $rootScope.map.size; x++) {
-        var line = [$rootScope.map.size];
-        for (var y = 0; y < $rootScope.map.size; y++) {
-            var cell = $rootScope.case(x, y)
-            cell.murH = (x == 0);
-            cell.murB = (x == $rootScope.map.size-1);
-            cell.murG = (y == 0);
-            cell.murD = (y == $rootScope.map.size-1);
-            line[y] = cell;
-        }
-        $rootScope.map.lineList[x] = line;
-    }
 
     // Gère la lancement d'une partie
     $scope.start = function() {
         $('.bg-finish').removeClass('bg-finish');
         $('.bg-blue').removeClass('bg-blue');
         
-        // Génération des cases de la map
+        // Initialisation de la map
         $rootScope.map = $rootScope.generateMap();
-        for (var x = 0; x < $rootScope.map.size; x++) {
-            var line = [$rootScope.map.size];
-            for (var y = 0; y < $rootScope.map.size; y++) {
-                var cell = $rootScope.case(x, y)
-                cell.murH = (x == 0);
-                cell.murB = (x == $rootScope.map.size-1);
-                cell.murG = (y == 0);
-                cell.murD = (y == $rootScope.map.size-1);
-                line[y] = cell;
-            }
-            $rootScope.map.lineList[x] = line;
+
+        // Lance l'initialisation de la map demandée
+        var mapIndex = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+        if (mapIndex == 1) {
+            initMap1($rootScope.map);
+        }
+        else if (mapIndex == 2) {
+            initMap2($rootScope.map);
+        }
+        else if (mapIndex == 3) {
+            initMap3($rootScope.map);
         }
 
         // Définit la case d'arrivée
@@ -46,6 +34,17 @@ angular.module('app.controllers')
         }
         while ($rootScope.map.arrivalY == index || $rootScope.map.arrivalY == index+1) {
           $rootScope.map.arrivalY = Math.floor(Math.random() * $rootScope.map.size);
+        }
+        while ($rootScope.map.lineList[$rootScope.map.arrivalX][$rootScope.map.arrivalY].hasNoWall()) {
+            $rootScope.map.arrivalX = Math.floor(Math.random() * $rootScope.map.size);
+            $rootScope.map.arrivalY = Math.floor(Math.random() * $rootScope.map.size);
+            var index = (($rootScope.map.size-2)/2);
+            while ($rootScope.map.arrivalX == index || $rootScope.map.arrivalX == index+1) {
+            $rootScope.map.arrivalX = Math.floor(Math.random() * $rootScope.map.size);
+            }
+            while ($rootScope.map.arrivalY == index || $rootScope.map.arrivalY == index+1) {
+            $rootScope.map.arrivalY = Math.floor(Math.random() * $rootScope.map.size);
+            }
         }
 
         // Définit la case de départ du robot
@@ -60,27 +59,11 @@ angular.module('app.controllers')
         }
         $rootScope.map.robotList[0] = $rootScope.robot(x, y);
 
-        // Affichage de l'arrivée
-        var arrival = $('table')[0].children[0].children[$rootScope.map.arrivalX].children[$rootScope.map.arrivalY];
-        arrival.className += ' bg-finish';
-
         // Affichage des robots
         $rootScope.map.robotList.forEach(function (robot, index) {
             var td = $('table')[0].children[0].children[robot.x].children[robot.y];
             td.className += ' bg-' + colors[index];
         });
-
-        // Lance l'initialisation de la map demandée
-        var mapIndex = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-        if (mapIndex == 1) {
-            initMap1($rootScope.map);
-        }
-        else if (mapIndex == 2) {
-            initMap2($rootScope.map);
-        }
-        else if (mapIndex == 3) {
-            initMap3($rootScope.map);
-        }
 
         // Appel l'algo avec la map
         var moveList = genetique.controlAlgo($rootScope.map);
@@ -251,6 +234,12 @@ angular.module('app.controllers')
         if (cell.murD) {
             className += " border-right";
         }
+
+        // Affichage de l'arrivée
+        if (cell.x == $rootScope.map.arrivalX && cell.y == $rootScope.map.arrivalY) {
+            className += " bg-finish";
+        }
+
         return className;
     }
 
