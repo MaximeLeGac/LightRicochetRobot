@@ -3,8 +3,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
  
     genetique.controlAlgo = function(carte){
-    	var CONST_TAILLE_POPULATION = 500;
-    	var CONST_NB_GENERATION = 500;
+    	var CONST_TAILLE_POPULATION = 2;
+    	var CONST_NB_GENERATION = 1;
 
 		//Init de la population d'individus
 		var lesIndividus = this.init(CONST_TAILLE_POPULATION, carte)
@@ -56,13 +56,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	        // Nombre de coup a jouer pour un individus
 	        rannbCoup = Math.floor(Math.random() * 20) + 10;
 
-	        var lesCoups = [];
-	        while(rannbCoup > 0) {
-	            rannbCoup = rannbCoup - 1;
-
-	            lesCoups.push(this.gestionMovements(carte));
-	        }
-
+	        var lesCoups = this.gestionMovements(carte, rannbCoup);
+	        
 			var individusCourant = $rootScope.individu(lesCoups, 0);
 	        lesIndividus.push(individusCourant);
 	        nbPopulation = nbPopulation - 1;
@@ -72,22 +67,32 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
 	// Ici on se deplacement sur la carte
 	// On gere les collisions, les demis tour etc...
-    genetique.gestionMovements = function(carte){
-    	var deplaRandom = this.deplacementRandom();
+    genetique.gestionMovements = function(carte, nbCoup){
 	    var positionTempo = [];
-	    var positionCourante = []; //Position du individu x, y
-	    var stop = 0;
-	    // Tant que nos position son différente nous continuons a avancer (pour faire la ligne complete)
-	    while(stop == 0){
-	        // Si notre position reste la meme alors nous avons taper un mur et on sort de la boucle 
-	        positionCourante = this.gestionCollision([carte.robotList[0].x, carte.robotList[0].y], deplaRandom, carte)
-	        if(positionTempo[0] != positionCourante[0] && positionTempo[1] != positionCourante[1]){
-	            positionTempo = positionCourante;
-	        }else{
-	            stop = 1
-	        }
-	    }
-	    return deplaRandom;
+	    var positionCourante = [carte.robotList[0].x, carte.robotList[0].y]; //Position du individu x, y
+	    var deplaRandom = [];
+		var lesCoups = [];
+		var stop = 0;
+
+	    while(nbCoup > 0) {
+	    	stop = 0;
+            deplaRandom = this.deplacementRandom();
+		    // Tant que nos position son différente nous continuons a avancer (pour faire la ligne complete)
+		    while(stop == 0){
+		        // Si notre position reste la meme alors nous avons taper un mur et on sort de la boucle 
+		        positionCourante = this.gestionCollision(positionCourante, deplaRandom, carte);
+
+		        if(positionTempo[0] != positionCourante[0] || positionTempo[1] != positionCourante[1]){
+		            positionTempo[0] = positionCourante[0];
+		            positionTempo[1] = positionCourante[1];
+		        }else{
+		        	lesCoups.push(deplaRandom);
+		            stop = 1
+		        }
+		    }
+            nbCoup = nbCoup - 1;
+		}
+	    return lesCoups;
     }
 
 	// Verifie si mur sur notre deplacement
