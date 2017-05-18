@@ -3,17 +3,18 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
  
     genetique.controlAlgo = function(carte){
-    	var CONST_TAILLE_POPULATION = 10;
-    	var CONST_NB_GENERATION = 5;
+    	var CONST_TAILLE_POPULATION = 2;
+    	var CONST_NB_GENERATION = 1;
 
 		//Init de la population d'individus
-		var lesIndividus = this.init(CONST_TAILLE_POPULATION, carte)
+		var lesIndividus = this.init(CONST_TAILLE_POPULATION, carte);
 
 		for (var e = 0; e < CONST_NB_GENERATION; e++) {
 			console.log("generation " , e);
 		    for (var i = 0; i < CONST_TAILLE_POPULATION; i++) {
 		    	// Evaluate individual
 				lesIndividus[i].note = this.evaluateMovements(lesIndividus[i], carte)
+				//console.log(lesIndividus[i].note);
 			}
 			// Select individuals
 			lucky_individuals = this.selectionRoulette(lesIndividus);
@@ -34,11 +35,14 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		var idIndividusChoice = 0;
 		var noteMax = 0;
 		for(var u = 0; u < lesIndividus.length; u++){
+			//console.log(lesIndividus[u].note);
 			if(lesIndividus[u].note > noteMax){
 				noteMax = lesIndividus[u].note;
 				idIndividusChoice = u;
 			}
 		}
+
+		console.log(lesIndividus[idIndividusChoice].passages);
 		// ont retourne la liste de deplacement du meilleurs individus
 		return lesIndividus[idIndividusChoice].passages;
     }
@@ -52,13 +56,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	        // Nombre de coup a jouer pour un individus
 	        rannbCoup = Math.floor(Math.random() * 20) + 10;
 
-	        var lesCoups = [];
-	        while(rannbCoup > 0) {
-	            rannbCoup = rannbCoup - 1;
-
-	            lesCoups.push(this.gestionMovements(carte));
-	        }
-
+	        var lesCoups = this.gestionMovements(carte, rannbCoup);
+	        
 			var individusCourant = $rootScope.individu(lesCoups, 0);
 	        lesIndividus.push(individusCourant);
 	        nbPopulation = nbPopulation - 1;
@@ -68,22 +67,32 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 
 	// Ici on se deplacement sur la carte
 	// On gere les collisions, les demis tour etc...
-    genetique.gestionMovements = function(carte){
-    	var deplaRandom = this.deplacementRandom();
+    genetique.gestionMovements = function(carte, nbCoup){
 	    var positionTempo = [];
-	    var positionCourante = []; //Position du individu x, y
-	    var stop = 0;
-	    // Tant que nos position son différente nous continuons a avancer (pour faire la ligne complete)
-	    while(stop == 0){
-	        // Si notre position reste la meme alors nous avons taper un mur et on sort de la boucle 
-	        positionCourante = this.gestionCollision([carte.robotList[0].x, carte.robotList[0].y], deplaRandom, carte)
-	        if(positionTempo[0] != positionCourante[0] && positionTempo[1] != positionCourante[1]){
-	            positionTempo = positionCourante;
-	        }else{
-	            stop = 1
-	        }
-	    }
-	    return deplaRandom;
+	    var positionCourante = [carte.robotList[0].x, carte.robotList[0].y]; //Position du individu x, y
+	    var deplaRandom = [];
+		var lesCoups = [];
+		var stop = 0;
+
+	    while(nbCoup > 0) {
+	    	stop = 0;
+            deplaRandom = this.deplacementRandom();
+		    // Tant que nos position son différente nous continuons a avancer (pour faire la ligne complete)
+		    while(stop == 0){
+		        // Si notre position reste la meme alors nous avons taper un mur et on sort de la boucle 
+		        positionCourante = this.gestionCollision(positionCourante, deplaRandom, carte);
+
+		        if(positionTempo[0] != positionCourante[0] || positionTempo[1] != positionCourante[1]){
+		            positionTempo[0] = positionCourante[0];
+		            positionTempo[1] = positionCourante[1];
+		        }else{
+		        	lesCoups.push(deplaRandom);
+		            stop = 1
+		        }
+		    }
+            nbCoup = nbCoup - 1;
+		}
+	    return lesCoups;
     }
 
 	// Verifie si mur sur notre deplacement
@@ -166,18 +175,14 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    var taille_parent2 = individu_parent2.passages.length;
 
 	    // Hauteur à laquelle on va découper les passages des parents
-
 	    if(taille_parent1 < taille_parent2){
 	    	var hauteur_croisement = Math.floor(Math.random() * taille_parent1) + 1; 
 	    }else{
 	    	var hauteur_croisement = Math.floor(Math.random() * taille_parent2) + 1; 
 	    }
 
-	    
-
 	    var bebe_1 = $rootScope.individu([],0);
 	    var bebe_2 = $rootScope.individu([],0);
-		
 		
 	    // Creation of the first half of each child based on the first half of each parents
 	    for (var i = 0; i < hauteur_croisement; i++) {
@@ -266,35 +271,55 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    // Ici le nombre de coup est multiplier a la note
 	    var nbCoups = individu.passages.length;
 
-	    var nbCoupsGagnant = this.checkThisWin(individu, carte);
+	    // On regarde la distance de la dernière position de notre individu
+	    // et on la compare à la position du point final
+	    var lastPositionX = carte.robotList[0].x;
+	    var lastPositionY = carte.robotList[0].y;
+	    var posCourante = [];
+	    
+	    for (var i=0; i < individu.passages.length; i++) {
+			posCourante = this.gestionCollision([lastPositionX, lastPositionY], individu.passages[i], carte);
 
-	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
-	    if (nbCoupsGagnant > 0) note *= nbCoupsGagnant;
-
-	    var lastPositionIndividus = individu.passages[nbCoups-1];
-	    var xDiff = lastPositionIndividus[0] - carte.arrivalX;
-	    var yDiff = lastPositionIndividus[1] - carte.arrivalY;
-
-	    if(yDiff < 0){
-	        yDiff = yDiff * (-1);
+	    	lastPositionX = posCourante[0];
+			lastPositionY = posCourante[1];
 	    }
-	    if(xDiff < 0){
-	        xDiff = xDiff * (-1);
-	    }
+    	var xDiff = posCourante[0] - carte.arrivalX;
+	    var yDiff = posCourante[1] - carte.arrivalY;
 
-	    // Verifier si un mur sur la route du dernier coup (si mur alors augmentation de la note)
-	    // Verifier si un mur sur la route du dernier coup (si mur alors augmentation de la note)
-	    // Verifier si un mur sur la route du dernier coup (si mur alors augmentation de la note)
-	    // Verifier si un mur sur la route du dernier coup (si mur alors augmentation de la note)
+	    if(xDiff < 0) xDiff *= (-1);
+	    if(yDiff < 0) yDiff *= (-1);
 
-
-
-
-	    //La distance entre le dernier coup jouer et l'arrive est multiplier pour x et y
-	    note *= yDiff;
+	   	//La distance entre le dernier coup jouer et l'arrive est multiplier pour x et y
 	    note *= xDiff;
+	    note *= yDiff;
 
+	    var nbAllerRetour = 0;
+	    var nbAllerAller = 0;
+	    
+	    var deplacementPrecedent = 0;
+	    // Favorisation de l'exploration 
+	    for(var i = 0; i < individu.passages.length; i++){
+	    	if(individu.passages[i] == deplacementPrecedent){
+	    		nbAllerAller = nbAllerAller + 1;
+	    	}
+	    	if(individu.passages[i] == [0,1] && deplacementPrecedent == [0,-1] || individu.passages[i] == [0, -1] && deplacementPrecedent == [0, 1]){
+	    		nbAllerRetour = nbAllerRetour +1;
+	    	}
+	    	if(individu.passages[i] == [1, 0] && deplacementPrecedent == [-1,0] || individu.passages[i] == [-1, 0] && deplacementPrecedent == [1, 0]){
+	    		nbAllerRetour = nbAllerRetour +1;
+	    	}
+	    	deplacementPrecedent = individu.passages[i];
+	    }
+
+	    note = note + (nbAllerRetour*10);
+	    note = note + (nbAllerAller*10);
+
+	    // on inverse la note
 	    note = (1 / note) * 100;
+	    var nbCoupsGagnant = this.checkThisWin(individu, carte);
+	    
+	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
+	    if (nbCoupsGagnant > 0) note *= (nbCoupsGagnant*100);
 
 	    return note;
 	}
@@ -310,20 +335,35 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		// Compteur des déplacements
 		var cpt = 0;
 
-
 		while (nb_coups_gagnant == 0 && cpt < individu.passages.length) {
 			// Appel à la méthode gestionCollision qui va nous renvoyer la position du robot après déplacement
-			
-			
-			posCourante = this.gestionCollision([posX, posY], individu.passages[cpt], carte);
+			var stop = 0;
+		    var positionTempo = [];
+		    var positionCourante = [];
+
+			// Tant que nos position sont différentes nous continuons a avancer (pour faire la ligne complete)
+		    while (stop == 0) {
+		        // Si notre position reste la meme alors nous avons taper un mur et on sort de la boucle 
+		        positionCourante = this.gestionCollision([posX, posY], individu.passages[cpt], carte);
+
+		        if (positionTempo[0] != positionCourante[0] && positionTempo[1] != positionCourante[1]) {
+		            positionTempo = positionCourante;
+		        } else {
+		            stop = 1;
+		        }
+		    }
 
 			// On incrémente le compteur de coups
 			cpt++;
+			posX = positionCourante[0];
+			posY = positionCourante[1];
 
 			// Si l'on se trouve sur la case d'arrivée
-			if (posCourante[0] == finalX && posCourante[1] == finalY) nb_coups_gagnant += cpt;
+			if (positionCourante[0] == finalX && positionCourante[1] == finalY) nb_coups_gagnant += cpt;
 
 		}
+
+		if (nb_coups_gagnant > 0) console.log("--------------> DAT WIN MAGUEULE : ", nb_coups_gagnant);
 
 		return nb_coups_gagnant;
 	}

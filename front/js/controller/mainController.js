@@ -83,8 +83,7 @@ angular.module('app.controllers')
         }
 
         // Appel l'algo avec la map
-        //handleMove($rootScope.map, genetique.controlAlgo($rootScope.map));
-        var moveList = [[0, 1], [-1, 0], [0, 1], [1, 0]];
+        var moveList = genetique.controlAlgo($rootScope.map);
         moveList.forEach(function(move) {
             setTimeout(function() {
                 handleMove($rootScope.map, move);
