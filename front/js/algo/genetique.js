@@ -293,19 +293,25 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    note *= yDiff;
 
 	    var nbAllerRetour = 0;
+	    var nbAllerAller = 0;
+	    
 	    var deplacementPrecedent = 0;
 	    // Favorisation de l'exploration 
 	    for(var i = 0; i < individu.passages.length; i++){
 	    	if(individu.passages[i] == deplacementPrecedent){
-	    		nbAllerRetour = nbAllerRetour + 1;
+	    		nbAllerAller = nbAllerAller + 1;
+	    	}
+	    	if(individu.passages[i] == [0,1] && deplacementPrecedent == [0,-1] || individu.passages[i] == [0, -1] && deplacementPrecedent == [0, 1]){
+	    		nbAllerRetour = nbAllerRetour +1;
+	    	}
+	    	if(individu.passages[i] == [1, 0] && deplacementPrecedent == [-1,0] || individu.passages[i] == [-1, 0] && deplacementPrecedent == [1, 0]){
+	    		nbAllerRetour = nbAllerRetour +1;
 	    	}
 	    	deplacementPrecedent = individu.passages[i];
 	    }
 
-	    note = note + (nbAllerRetour*100);
-
-
-
+	    note = note + (nbAllerRetour*10);
+	    note = note + (nbAllerAller*10);
 
 	    // on inverse la note
 	    note = (1 / note) * 100;
