@@ -276,7 +276,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    	console.log("                    win                      ", nbCoupsGagnant);
 	    }
 	    // Si l'individu arrive au point final, on multiplie la note par le nombre de coups
-	    if (nbCoupsGagnant > 0) note *= nbCoupsGagnant*100;
+	    if (nbCoupsGagnant > 0) note *= (nbCoupsGagnant*100);
 
 	    // On regarde la distance de la dernière position de notre individu
 	    // et on la compare à la position du point final
@@ -290,21 +290,15 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    	lastPositionX = posCourante[0];
 			lastPositionY = posCourante[1];
 	    }
-	    if (posCourante != []) {
-	    	var xDiff = posCourante[0] - carte.arrivalX;
-		    var yDiff = posCourante[1] - carte.arrivalY;
+    	var xDiff = posCourante[0] - carte.arrivalX;
+	    var yDiff = posCourante[1] - carte.arrivalY;
 
-		    if(yDiff < 0){
-		        yDiff = yDiff * (-1);
-		    }
-		    if(xDiff < 0){
-		        xDiff = xDiff * (-1);
-		    }
+	    if(xDiff < 0) xDiff *= (-1);
+	    if(yDiff < 0) yDiff *= (-1);
 
-		   	//La distance entre le dernier coup jouer et l'arrive est multiplier pour x et y
-		    note *= yDiff;
-		    note *= xDiff;
-	    }
+	   	//La distance entre le dernier coup jouer et l'arrive est multiplier pour x et y
+	    note *= xDiff;
+	    note *= yDiff;
 
 	    var nbAllerRetour = 0;
 	    var deplacementPrecedent = 0;
