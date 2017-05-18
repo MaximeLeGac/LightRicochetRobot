@@ -175,18 +175,14 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 	    var taille_parent2 = individu_parent2.passages.length;
 
 	    // Hauteur à laquelle on va découper les passages des parents
-
 	    if(taille_parent1 < taille_parent2){
 	    	var hauteur_croisement = Math.floor(Math.random() * taille_parent1) + 1; 
 	    }else{
 	    	var hauteur_croisement = Math.floor(Math.random() * taille_parent2) + 1; 
 	    }
 
-	    
-
 	    var bebe_1 = $rootScope.individu([],0);
 	    var bebe_2 = $rootScope.individu([],0);
-		
 		
 	    // Creation of the first half of each child based on the first half of each parents
 	    for (var i = 0; i < hauteur_croisement; i++) {
@@ -353,7 +349,7 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 		        if (positionTempo[0] != positionCourante[0] && positionTempo[1] != positionCourante[1]) {
 		            positionTempo = positionCourante;
 		        } else {
-		            stop = 1
+		            stop = 1;
 		        }
 		    }
 
@@ -366,6 +362,8 @@ angular.module('app.algo').factory('genetique', function ($rootScope) {
 			if (positionCourante[0] == finalX && positionCourante[1] == finalY) nb_coups_gagnant += cpt;
 
 		}
+
+		if (nb_coups_gagnant > 0) console.log("--------------> DAT WIN MAGUEULE : ", nb_coups_gagnant);
 
 		return nb_coups_gagnant;
 	}
